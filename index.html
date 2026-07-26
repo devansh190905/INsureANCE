@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="INsureANCE">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<title>INsureANCE — Policy intelligence for your platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--black:#0a0a0a;--white:#fff;--bg:#f7f6f3;--card:#fff;--border:#e8e5e0;--gray:#8a8580;--text:#2a2520;--sub:#5a5550;--green:#1a6534;--green-bg:#e5f5ec;--red:#8b1a1a;--red-bg:#fce8e8;--amber:#7a4a0a;--amber-bg:#fdf3e0;--blue:#1a3a6b;--blue-bg:#e5edf8;--shadow:0 1px 3px rgba(0,0,0,.04),0 4px 12px rgba(0,0,0,.03);--shadow-md:0 2px 8px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);--shadow-lg:0 4px 12px rgba(0,0,0,.08),0 12px 32px rgba(0,0,0,.06)}
+html{height:100%;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100%;display:flex;flex-direction:column;align-items:center}
+.app{max-width:100%;width:100%;min-height:100vh;display:flex;flex-direction:column;background:var(--bg)}
+/* Slide sections */
+.slide{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px;position:relative}
+.slide-inner{max-width:640px;width:100%;margin:0 auto}
+.slide-dark{background:var(--black);color:var(--white)}
+.slide-dark .how-title{color:rgba(255,255,255,.4)}
+.slide-accent{background:#1a1a1a;color:var(--white)}
+.slide-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gray);margin-bottom:24px;display:inline-block;padding:6px 16px;border-radius:6px;background:rgba(0,0,0,.05)}
+.slide-dark .slide-label{color:rgba(255,255,255,.5);background:rgba(255,255,255,.08)}
+.slide-h{font-size:40px;font-weight:700;color:var(--black);line-height:1.15;letter-spacing:-.8px;margin-bottom:20px}
+.slide-dark .slide-h{color:var(--white)}
+/* Scroll reveal animations */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-up{opacity:0;transform:translateY(60px) scale(.97);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.reveal-up.visible{opacity:1;transform:translateY(0) scale(1)}
+.reveal-scale{opacity:0;transform:scale(.9);transition:opacity .7s ease,transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+.reveal-d1{transition-delay:.12s}
+.reveal-d2{transition-delay:.24s}
+.reveal-d3{transition-delay:.36s}
+.reveal-d4{transition-delay:.48s}
+.slide-p{font-size:17px;color:var(--sub);line-height:1.8;max-width:520px}
+.slide-dark .slide-p{color:rgba(255,255,255,.6)}
+.slide-divider{width:40px;height:3px;background:var(--border);border-radius:2px;margin:28px 0}
+.slide-dark .slide-divider{background:rgba(255,255,255,.15)}
+/* Scroll indicator */
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--gray);font-size:11px;font-weight:600;letter-spacing:.5px;animation:pulse-down 2s ease infinite}
+.slide-dark .scroll-hint{color:rgba(255,255,255,.3)}
+.scroll-hint i{font-size:18px}
+@keyframes pulse-down{0%,100%{transform:translateX(-50%) translateY(0);opacity:.6}50%{transform:translateX(-50%) translateY(6px);opacity:1}}
+/* Nav */
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;position:sticky;top:0;background:rgba(247,246,243,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:20;border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+.nav.scrolled{border-bottom-color:var(--border);box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.nav-logo{font-size:22px;font-weight:700;color:var(--black);letter-spacing:-.4px}
+.nav-logo em{font-family:'Great Vibes',cursive;font-style:normal;font-weight:400;font-size:27px}
+.nav-links{display:flex;gap:8px;align-items:center}
+.nav-link{font-size:13px;font-weight:600;padding:9px 18px;border-radius:10px;cursor:pointer;border:none;font-family:inherit;background:none;color:var(--sub);transition:color .15s,background .15s}
+.nav-link:hover{color:var(--black);background:rgba(0,0,0,.03)}
+.nav-link.primary{background:var(--black);color:var(--white);border-radius:10px;box-shadow:var(--shadow)}
+.nav-link.primary:hover{box-shadow:var(--shadow-md)}
+/* Hero */
+.hero{padding:72px 24px 56px;text-align:center}
+.hero h1{font-size:38px;font-weight:700;color:var(--black);line-height:1.15;letter-spacing:-.8px;margin-bottom:16px}
+.hero h1 span{display:block;color:var(--sub);font-weight:500;font-size:19px;letter-spacing:0;margin-top:10px;line-height:1.5}
+.hero p{font-size:16px;color:var(--sub);line-height:1.75;max-width:460px;margin:0 auto 32px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);border:none;border-radius:14px;padding:16px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,box-shadow .2s;box-shadow:var(--shadow-md)}
+.hero-cta:hover{box-shadow:var(--shadow-lg)}
+.hero-cta:active{transform:scale(.97)}
+.hero-cta i{font-size:20px}
+.hero-sub{font-size:13px;color:var(--gray);margin-top:14px}
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:0 24px 56px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 18px;text-align:center;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.stat:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.stat-num{font-size:40px;font-weight:700;color:var(--black);margin-bottom:8px;letter-spacing:-.6px}
+.stat-label{font-size:14.5px;color:var(--sub);line-height:1.6}
+.slide-dark .stat{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);box-shadow:none}
+.slide-dark .stat:hover{background:rgba(255,255,255,.09);box-shadow:none;transform:translateY(-2px)}
+.slide-dark .stat-num{color:var(--white)}
+.slide-dark .stat-label{color:rgba(255,255,255,.5)}
+/* How it works */
+.how-section{padding:0 24px 56px}
+.how-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1.2px;text-align:center;margin-bottom:24px}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.how-step{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 20px;text-align:center;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.how-step:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.slide-dark .how-step{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);box-shadow:none}
+.slide-dark .how-step:hover{background:rgba(255,255,255,.09)}
+.slide-dark .how-step-title{color:var(--white)}
+.slide-dark .how-step-sub{color:rgba(255,255,255,.5)}
+.how-step-num{width:38px;height:38px;background:var(--black);color:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;margin:0 auto 16px}
+.how-step-title{font-size:19px;font-weight:600;color:var(--black);margin-bottom:6px}
+.how-step-sub{font-size:15px;color:var(--sub);line-height:1.65}
+/* Features row */
+.feat-section{padding:0 24px 56px}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.feat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
+.feat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.feat-card i{font-size:26px;color:var(--sub);margin-bottom:12px;display:block}
+.feat-card-title{font-size:17px;font-weight:600;color:var(--black);margin-bottom:5px}
+.feat-card-sub{font-size:15px;color:var(--sub);line-height:1.65}
+/* Divider */
+.section-divider{height:1px;background:var(--border);margin:0 24px 56px}
+/* Tool header */
+.tool-header{padding:28px 24px 4px;text-align:center}
+.tool-header .logo{font-size:32px;font-weight:700;color:var(--black);letter-spacing:-.5px;margin-bottom:4px}
+.tool-header .logo em{font-family:'Great Vibes',cursive;font-style:normal;font-weight:400;font-size:40px}
+.tool-header .tagline{font-size:14px;color:var(--gray)}
+.view{display:none;flex:1;flex-direction:column;padding:20px 24px 40px}
+.view.on{display:flex}
+.upload-hero{margin:24px 0 20px;text-align:center}
+.upload-hero h1{font-size:24px;font-weight:700;color:var(--black);line-height:1.3;margin-bottom:8px;letter-spacing:-.3px}
+.upload-hero p{font-size:15px;color:var(--sub);line-height:1.65}
+.dropzone{border:2px dashed var(--border);border-radius:20px;padding:44px 28px;text-align:center;cursor:pointer;background:var(--card);position:relative;transition:border-color .25s,background .25s,box-shadow .25s;margin-bottom:16px;box-shadow:var(--shadow)}
+.dropzone:hover{border-color:#c8c5c0;box-shadow:var(--shadow-md)}
+.dropzone.over{border-color:var(--black);background:#f0efe8;box-shadow:var(--shadow-md)}
+.dropzone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dz-icon{margin-bottom:16px;display:flex;justify-content:center}
+.dz-icon i{font-size:40px;color:var(--gray)}
+.dz-title{font-size:17px;font-weight:600;color:var(--black);margin-bottom:6px}
+.dz-sub{font-size:14px;color:var(--gray);margin-bottom:20px}
+.types{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:20px}
+.type-tag{font-size:12px;font-weight:500;background:var(--bg);border:1px solid var(--border);border-radius:20px;padding:5px 14px;color:var(--sub);transition:background .15s}
+.browse-btn{background:var(--black);color:var(--white);border:none;border-radius:12px;padding:13px 30px;font-size:14px;font-weight:600;pointer-events:none;font-family:inherit;box-shadow:var(--shadow)}
+.file-card{display:none;align-items:center;gap:14px;background:var(--card);border-radius:16px;padding:18px 20px;border:1px solid var(--border);margin-bottom:14px;box-shadow:var(--shadow)}
+.file-card.on{display:flex}
+.file-card i{font-size:24px;color:var(--sub)}
+.fc-info{flex:1;min-width:0}
+.fc-name{font-size:14px;font-weight:600;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fc-meta{font-size:13px;color:var(--gray);margin-top:3px}
+.fc-remove{background:none;border:none;cursor:pointer;font-size:20px;color:var(--gray);padding:8px;line-height:1;border-radius:8px;transition:background .15s}
+.fc-remove:hover{background:var(--bg)}
+.warn-banner{display:none;align-items:flex-start;gap:10px;background:var(--amber-bg);border-radius:14px;padding:16px 18px;margin-bottom:14px;font-size:13px;color:var(--amber);line-height:1.65}
+.warn-banner.on{display:flex}
+.warn-banner i{font-size:18px;flex-shrink:0;margin-top:1px}
+.decode-btn{display:none;width:100%;padding:17px;background:var(--black);color:var(--white);border:none;border-radius:14px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;box-shadow:var(--shadow-md);transition:box-shadow .2s,transform .1s}
+.decode-btn:hover{box-shadow:var(--shadow-lg)}
+.decode-btn:active{transform:scale(.99)}
+.decode-btn.on{display:block}
+.decode-btn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.char-info{display:none;font-size:13px;color:var(--gray);text-align:center;margin-top:10px}
+.char-info.on{display:block}
+/* Camera */
+.camera-btn{width:100%;padding:16px;background:var(--black);color:var(--white);border:none;border-radius:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:box-shadow .2s;margin-bottom:16px;box-shadow:var(--shadow)}
+.camera-btn:hover{box-shadow:var(--shadow-md)}
+.camera-btn i{font-size:20px}
+.camera-pages{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:var(--shadow)}
+.camera-pages-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.camera-pages-title span{font-size:14px;font-weight:600;color:var(--black)}
+.camera-add-btn{font-size:13px;font-weight:600;color:var(--blue);background:none;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:4px}
+.camera-thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.camera-thumb{width:70px;height:90px;border-radius:8px;object-fit:cover;border:2px solid var(--border)}
+.camera-thumb-wrap{position:relative}
+.camera-thumb-x{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--black);color:var(--white);border:none;border-radius:50%;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.features{margin-top:32px;display:flex;flex-direction:column;gap:10px}
+.feature{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);transition:box-shadow .2s}
+.feature:hover{box-shadow:var(--shadow-md)}
+.feature i{font-size:20px;color:var(--sub)}
+.feature span{font-size:14px;color:var(--sub)}
+/* History */
+.hist-section{margin-top:32px}
+.hist-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.hist-clear{font-size:12px;font-weight:500;color:var(--gray);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
+.hist-item{display:flex;align-items:center;gap:14px;padding:16px 18px;background:var(--card);border-radius:14px;border:1px solid var(--border);margin-bottom:8px;cursor:pointer;transition:border-color .15s,box-shadow .2s;box-shadow:var(--shadow)}
+.hist-item:hover{border-color:var(--black);box-shadow:var(--shadow-md)}
+.hist-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hist-icon i{font-size:18px}
+.hist-info{flex:1;min-width:0}
+.hist-name{font-size:14px;font-weight:600;color:var(--black);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-meta{font-size:12px;color:var(--gray);margin-top:3px}
+.hist-chevron{font-size:14px;color:var(--gray)}
+/* Loading */
+.loading-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.spinner{width:48px;height:48px;border:3px solid var(--border);border-top-color:var(--black);border-radius:50%;animation:spin .75s linear infinite;margin-bottom:28px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-title{font-size:19px;font-weight:700;color:var(--black);margin-bottom:6px}
+.loading-sub{font-size:14px;color:var(--gray);margin-bottom:10px}
+.loading-detail{font-size:13px;font-weight:600;color:var(--black);background:var(--card);padding:10px 18px;border-radius:10px;border:1px solid var(--border);display:none;margin-bottom:28px;box-shadow:var(--shadow)}
+.loading-detail.on{display:block}
+.load-steps{width:100%;max-width:300px;display:flex;flex-direction:column;gap:10px}
+.ls{font-size:14px;color:var(--gray);padding:6px 0;display:flex;align-items:center;gap:10px;transition:color .2s}
+.ls-dot{width:6px;height:6px;border-radius:50%;background:var(--border);flex-shrink:0;transition:background .2s}
+.ls.active{color:var(--black);font-weight:600}
+.ls.active .ls-dot{background:var(--black)}
+.ls.done{color:var(--green)}
+.ls.done .ls-dot{display:none}
+.ls.done::before{content:'';width:6px;height:6px;flex-shrink:0}
+.ls.done i{color:var(--green);font-size:14px;margin-right:-4px}
+/* Error */
+.error-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.error-center i{font-size:52px;color:var(--gray);margin-bottom:20px}
+.error-title{font-size:19px;font-weight:700;margin-bottom:8px}
+.error-sub{font-size:14px;color:var(--sub);line-height:1.65;margin-bottom:28px;max-width:360px}
+.retry-btn{background:var(--black);color:var(--white);border:none;border-radius:14px;padding:15px 32px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-md);transition:box-shadow .2s}
+.retry-btn:hover{box-shadow:var(--shadow-lg)}
+/* Result */
+.result-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.back-link{font-size:14px;font-weight:600;color:var(--sub);cursor:pointer;display:flex;align-items:center;gap:5px;background:none;border:none;font-family:inherit;transition:color .15s}
+.back-link:hover{color:var(--black)}
+.share-btn{font-size:13px;font-weight:600;color:var(--white);background:var(--black);border:none;border-radius:10px;padding:9px 18px;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;position:relative;box-shadow:var(--shadow);transition:box-shadow .2s}
+.share-btn:hover{box-shadow:var(--shadow-md)}
+.share-btn i{font-size:14px}
+.share-menu{display:none;position:absolute;top:100%;right:0;margin-top:8px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:8px;box-shadow:var(--shadow-lg);z-index:50;min-width:240px}
+.share-menu.on{display:block}
+.share-option{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;cursor:pointer;font-size:14px;font-weight:500;color:var(--text);border:none;background:none;width:100%;text-align:left;font-family:inherit;transition:background .12s}
+.share-option:hover{background:var(--bg)}
+.share-option i{font-size:20px;width:24px;text-align:center;flex-shrink:0}
+.share-option .so-label{flex:1}
+.share-option .so-sub{font-size:11px;color:var(--gray);font-weight:400}
+.share-option.whatsapp i{color:#25d366}
+.share-option.gmail i{color:#ea4335}
+.share-option.mail i{color:#0c4592}
+.share-option.sms i{color:#34c759}
+.share-option.copy i{color:var(--sub)}
+.share-divider{height:1px;background:var(--border);margin:4px 8px}
+.result-hero{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:24px;margin-bottom:18px;box-shadow:var(--shadow)}
+.rh-type{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.rh-type i{font-size:16px}
+.rh-title{font-size:22px;font-weight:700;color:var(--black);margin-bottom:10px;letter-spacing:-.4px;line-height:1.25}
+.rh-summary{font-size:15px;color:var(--sub);line-height:1.75}
+.rh-demo{display:inline-block;font-size:11px;font-weight:700;color:var(--amber);background:var(--amber-bg);padding:4px 10px;border-radius:6px;margin-top:12px}
+.info-banner{display:none;align-items:flex-start;gap:10px;border-radius:14px;padding:16px 18px;margin-bottom:18px;font-size:13px;line-height:1.65}
+.info-banner.blue{background:var(--blue-bg);color:var(--blue)}
+.info-banner i{font-size:16px;flex-shrink:0;margin-top:2px}
+.res-card{border:1px solid var(--border);border-radius:18px;overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow);transition:box-shadow .2s}
+.res-card:hover{box-shadow:var(--shadow-md)}
+.res-head{display:flex;align-items:center;gap:12px;padding:16px 20px;cursor:pointer;background:var(--card);transition:background .12s}
+.res-head:active{background:var(--bg)}
+.res-pill{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.res-pill i{font-size:15px}
+.res-pill.green{background:var(--green-bg);color:var(--green)}.res-pill.red{background:var(--red-bg);color:var(--red)}.res-pill.amber{background:var(--amber-bg);color:var(--amber)}.res-pill.gray{background:var(--bg);color:var(--sub)}
+.res-head-label{font-size:15px;font-weight:600;color:var(--black);flex:1}
+.res-count{font-size:12px;background:var(--bg);border:1px solid var(--border);color:var(--sub);padding:4px 12px;border-radius:20px;font-weight:600}
+.res-chevron{font-size:16px;color:var(--gray);transition:transform .25s}
+.res-chevron.open{transform:rotate(90deg)}
+.res-body{border-top:1px solid var(--border);padding:16px 20px;display:none;background:var(--card)}
+.res-body.open{display:block}
+.res-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--sub);line-height:1.7;padding:7px 0}
+.res-dot{width:6px;height:6px;border-radius:50%;margin-top:9px;flex-shrink:0}
+.res-dot.green{background:var(--green)}.res-dot.red{background:var(--red)}
+.cond-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cond-card{background:var(--bg);border-radius:12px;padding:14px 16px}
+.cond-l{font-size:10.5px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.cond-v{font-size:14px;font-weight:600;color:var(--black)}
+.chk-row{display:flex;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:opacity .15s}
+.chk-row:last-child{border-bottom:none}
+.chkbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.chkbox.on{background:var(--black);border-color:var(--black)}
+.chkbox.on::after{content:'';width:8px;height:4px;border-left:2px solid var(--white);border-bottom:2px solid var(--white);transform:rotate(-45deg);margin-top:-2px}
+.chk-lbl{font-size:14px;color:var(--sub)}.chk-done{text-decoration:line-through;color:var(--gray)}
+.chk-prog{font-size:13px;color:var(--gray);text-align:right;margin-top:12px}
+.disclaimer{display:flex;gap:12px;align-items:flex-start;background:var(--amber-bg);border-radius:14px;padding:16px 18px;margin:10px 0 22px}
+.disclaimer i{font-size:16px;color:var(--amber);flex-shrink:0;margin-top:2px}
+.disclaimer span{font-size:13px;color:var(--amber);line-height:1.65}
+.action-row{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.action-btn{flex:1;min-width:180px;padding:15px 16px;background:var(--card);border:2px solid var(--border);border-radius:14px;font-size:14px;font-weight:600;color:var(--black);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:border-color .15s,box-shadow .2s}
+.action-btn:hover{border-color:var(--black);box-shadow:var(--shadow)}
+.action-btn i{font-size:18px}
+.action-btn.primary{background:var(--black);color:var(--white);border-color:var(--black);box-shadow:var(--shadow)}
+/* Compare banner */
+.compare-banner{display:none;background:var(--blue-bg);border:1px solid #c5d6f0;border-radius:18px;padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow)}
+.compare-banner.on{display:block}
+.compare-banner-title{font-size:16px;font-weight:600;color:var(--blue);margin-bottom:5px}
+.compare-banner-sub{font-size:13px;color:var(--blue);line-height:1.6;margin-bottom:14px}
+.compare-btn{background:var(--blue);color:var(--white);border:none;border-radius:12px;padding:12px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:box-shadow .2s}
+.compare-btn:hover{box-shadow:var(--shadow-md)}
+/* Compare view */
+.compare-header{font-size:19px;font-weight:700;color:var(--black);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.compare-header i{font-size:22px;color:var(--blue)}
+.compare-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.compare-col{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
+.compare-col-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.compare-col-name{font-size:15px;font-weight:600;color:var(--black);margin-bottom:4px}
+.compare-col-sub{font-size:13px;color:var(--gray)}
+.compare-section{margin-bottom:18px}
+.compare-section-title{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.compare-section-title i{font-size:16px}
+.compare-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.compare-cell{background:var(--bg);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--sub);line-height:1.6}
+.compare-cell.highlight{background:var(--green-bg);color:var(--green)}
+.compare-cell.warn{background:var(--red-bg);color:var(--red)}
+.debug-toggle{text-align:center;margin-bottom:10px}
+.debug-link{font-size:13px;color:var(--gray);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline;transition:color .15s}
+.debug-link:hover{color:var(--sub)}
+.debug-box{display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;max-height:200px;overflow-y:auto;margin-bottom:18px;box-shadow:var(--shadow)}
+.debug-box.on{display:block}
+.debug-box pre{font-size:11px;color:var(--sub);white-space:pre-wrap;word-break:break-word;font-family:'SF Mono','Fira Code',monospace;line-height:1.55}
+.footer{text-align:center;padding:32px 24px 40px;font-size:12px;color:var(--gray);max-width:640px;margin:0 auto;width:100%}
+.footer-logo{font-size:20px;font-weight:700;color:var(--black);margin-bottom:5px}
+.footer-logo em{font-family:'Great Vibes',cursive;font-style:normal;font-weight:400;font-size:25px}
+.footer-settings{background:none;border:none;color:var(--gray);font-size:12px;cursor:pointer;font-family:inherit;margin-top:10px;display:inline-flex;align-items:center;gap:4px;text-decoration:underline;transition:color .15s}
+.footer-settings:hover{color:var(--sub)}
+.footer-settings i{font-size:14px}
+/* Setup */
+.setup-box{max-width:400px;margin:48px auto;text-align:center;padding:0 20px}
+.setup-icon{margin-bottom:20px}
+.setup-icon i{font-size:44px;color:var(--gray)}
+.setup-title{font-size:24px;font-weight:700;color:var(--black);margin-bottom:10px;letter-spacing:-.3px}
+.setup-sub{font-size:14px;color:var(--sub);line-height:1.7;margin-bottom:28px}
+.setup-input-row{display:flex;gap:0;margin-bottom:16px;border:2px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .15s;box-shadow:var(--shadow)}
+.setup-input-row:focus-within{border-color:var(--black);box-shadow:var(--shadow-md)}
+.setup-input{flex:1;border:none;padding:15px 18px;font-size:15px;font-family:inherit;color:var(--text);outline:none;background:var(--card);min-width:0}
+.setup-toggle{background:var(--bg);border:none;padding:0 16px;cursor:pointer;color:var(--gray);display:flex;align-items:center;transition:color .15s}
+.setup-toggle:hover{color:var(--sub)}
+.setup-toggle i{font-size:18px}
+.setup-btn{width:100%;padding:15px;background:var(--black);color:var(--white);border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px}
+.setup-btn:disabled{opacity:.35;cursor:not-allowed}
+.setup-error{font-size:13px;color:var(--red);margin-bottom:10px;min-height:18px}
+.setup-help{font-size:13px;color:var(--gray);line-height:1.55}
+@media(max-width:580px){.cond-grid,.compare-pair,.compare-row{grid-template-columns:1fr}.upload-hero h1{font-size:21px}.hero h1,.slide-h{font-size:28px}.hero h1 span{font-size:17px}.stats{grid-template-columns:1fr}.stat-num{font-size:24px}.how-steps{grid-template-columns:1fr}.feat-grid{grid-template-columns:1fr}.nav-link:not(.primary){display:none}.slide{min-height:auto;padding:60px 20px}.slide-p{font-size:15px}}
+/* Red flags */
+.rf-item{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--red);line-height:1.65;padding:6px 0}
+.rf-icon{font-size:16px;flex-shrink:0;margin-top:2px}
+/* Q&A */
+.qa-section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+.qa-title{font-size:14px;font-weight:700;color:var(--black);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.qa-title i{font-size:18px;color:var(--blue)}
+.qa-sub{font-size:13px;color:var(--gray);margin-bottom:14px}
+.qa-input-row{display:flex;gap:10px}
+.qa-input{flex:1;border:2px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--text);background:var(--bg);font-family:inherit;outline:none}
+.qa-input:focus{border-color:var(--black)}
+.qa-send{background:var(--black);color:var(--white);border:none;border-radius:10px;padding:12px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+.qa-suggestions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.qa-chip{background:var(--bg);border:1px solid var(--border);color:var(--sub);font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer;font-family:inherit;font-weight:500}
+.qa-chip:hover{border-color:var(--black);color:var(--black)}
+.qa-answer{margin-top:14px;padding:14px 16px;background:var(--bg);border-radius:12px;font-size:14px;line-height:1.7;color:var(--sub);display:none}
+.qa-answer.on{display:block}
+.qa-answer strong{color:var(--black)}
+/* Lang + Download bar */
+.tool-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.tool-btn{flex:1;min-width:140px;padding:12px 14px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;font-size:13px;font-weight:600;color:var(--black);cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px;transition:border-color .15s}
+.tool-btn:hover{border-color:var(--black)}
+.tool-btn i{font-size:16px}
+.hindi-box{display:none;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin-bottom:16px;font-size:15px;line-height:1.8;color:var(--sub)}
+.hindi-box.on{display:block}
+.hindi-box-label{font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.7px;margin-bottom:8px}
+.lang-menu{display:none;position:absolute;bottom:100%;left:0;right:0;margin-bottom:6px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:6px;box-shadow:var(--shadow-lg);z-index:50;max-height:300px;overflow-y:auto}
+.lang-menu.on{display:block}
+.lang-opt{display:block;width:100%;text-align:left;padding:10px 14px;border:none;background:none;font-size:14px;font-weight:500;color:var(--text);cursor:pointer;font-family:inherit;border-radius:10px;transition:background .12s}
+.lang-opt:hover{background:var(--bg)}
+/* Signup overlay */
+.signup-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;padding:20px}
+.signup-overlay.on{display:flex}
+.signup-box{background:var(--white);border-radius:20px;padding:36px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.signup-box h2{font-size:24px;font-weight:700;color:var(--black);margin-bottom:4px}
+.signup-box p{font-size:14px;color:var(--gray);margin-bottom:24px}
+.signup-input{width:100%;padding:14px 16px;border:1.5px solid var(--border);border-radius:12px;font-size:15px;font-family:inherit;margin-bottom:12px;box-sizing:border-box;outline:none;transition:border-color .15s}
+.signup-input:focus{border-color:var(--black)}
+.signup-submit{width:100%;padding:14px;background:var(--black);color:var(--white);border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:6px}
+.signup-error{font-size:12px;color:var(--red);margin-top:8px;display:none}
+/* Welcome screen */
+.welcome-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--black);z-index:400;align-items:center;justify-content:center;flex-direction:column}
+.welcome-overlay.on{display:flex}
+.welcome-logo{font-size:36px;font-weight:700;color:var(--white);margin-bottom:16px}
+.welcome-name{font-size:28px;font-weight:300;color:rgba(255,255,255,.8);opacity:0;transform:translateY(15px);animation:welcomeFadeIn .8s ease forwards .4s}
+.welcome-tagline{font-size:14px;color:rgba(255,255,255,.35);margin-top:16px;opacity:0;animation:welcomeFadeIn .6s ease forwards .9s}
+@keyframes welcomeFadeIn{to{opacity:1;transform:translateY(0)}}
+/* Insurance Health Score */
+.score-card{background:var(--black);border-radius:20px;padding:28px 24px;margin-bottom:20px;text-align:center;color:var(--white)}
+.score-circle{position:relative;width:140px;height:140px;margin:0 auto 16px}
+.score-circle svg{transform:rotate(-90deg)}
+.score-circle-bg{fill:none;stroke:rgba(255,255,255,.1);stroke-width:10}
+.score-circle-fill{fill:none;stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.score-number{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:42px;font-weight:700}
+.score-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.5);margin-bottom:4px}
+.score-reason{font-size:13px;color:rgba(255,255,255,.6);margin-top:8px;line-height:1.5;max-width:320px;margin-left:auto;margin-right:auto}
+.score-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;text-align:left}
+.score-cat{background:rgba(255,255,255,.08);border-radius:12px;padding:14px}
+.score-cat-label{font-size:11px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.score-cat-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.score-cat-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.score-cat-num{font-size:18px;font-weight:700;margin-bottom:4px}
+.score-missing{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+.score-missing-title{font-size:13px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.score-missing-item{display:flex;gap:8px;padding:8px 0;font-size:14px;color:var(--sub);border-bottom:1px solid var(--border)}
+.score-missing-item:last-child{border-bottom:none}
+.score-share{margin-top:16px;padding:12px 24px;background:var(--white);color:var(--black);border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:8px}
+/* Money at Risk */
+.risk-card{background:linear-gradient(135deg,#1a0000 0%,#3d0000 100%);border-radius:20px;padding:24px;margin-bottom:20px;color:var(--white)}
+.risk-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.5);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.risk-scenario{font-size:15px;color:rgba(255,255,255,.7);margin-bottom:20px;line-height:1.5}
+.risk-amounts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.risk-amount{background:rgba(255,255,255,.08);border-radius:14px;padding:16px;text-align:center}
+.risk-amount-label{font-size:11px;color:rgba(255,255,255,.5);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.risk-amount-num{font-size:24px;font-weight:700}
+.risk-amount-num.green{color:#22c55e}
+.risk-amount-num.red{color:#ef4444}
+.risk-why{margin-top:12px}
+.risk-why-item{display:flex;gap:8px;padding:6px 0;font-size:13px;color:rgba(255,255,255,.7);align-items:flex-start}
+.risk-why-dot{width:6px;height:6px;border-radius:50%;background:#ef4444;flex-shrink:0;margin-top:6px}
+/* Claim Scenarios */
+.scenarios-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:16px}
+.scenarios-title{font-size:13px;font-weight:700;color:var(--black);text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.scenario-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border)}
+.scenario-row:last-child{border-bottom:none}
+.scenario-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;flex-shrink:0;margin-top:2px}
+.scenario-badge.yes{background:#dcfce7;color:#166534}
+.scenario-badge.no{background:#fee2e2;color:#991b1b}
+.scenario-badge.partial{background:#fef3c7;color:#92400e}
+.scenario-text{flex:1}
+.scenario-name{font-size:14px;font-weight:600;color:var(--black);margin-bottom:2px}
+.scenario-detail{font-size:13px;color:var(--gray)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- Nav -->
+<nav class="nav" id="mainNav">
+<div class="nav-logo" id="navLogo" style="cursor:pointer">IN<em>sure</em>ANCE</div>
+<div class="nav-links">
+<button class="nav-link primary" id="installBtn">Install</button>
+</div>
+</nav>
+
+<!-- Landing Page -->
+<div id="landingPage">
+
+<!-- SLIDE 1: HERO -->
+<div class="slide">
+<div class="slide-inner" style="text-align:center">
+<div class="reveal" style="font-size:46px;font-weight:700;color:var(--black);margin-bottom:12px;letter-spacing:-.5px">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:56px">sure</em>ANCE</div>
+<h1 class="slide-h reveal reveal-d1" style="font-size:52px;letter-spacing:-1.5px;max-width:620px;margin:0 auto 20px;margin-top:32px">Policy intelligence for <em style="font-style:italic">your</em> platform.</h1>
+<p class="slide-p reveal reveal-d2" style="margin:0 auto;text-align:center;font-size:20px">An AI engine that reads any insurance policy and delivers structured, plain-English clarity — built to embed inside your product.</p>
+</div>
+<div class="scroll-hint"><span>Scroll</span><i class="ti ti-chevron-down"></i></div>
+</div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide slide-dark">
+<div class="slide-inner">
+<div class="slide-label reveal">The problem</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:46px">Nobody <span style="color:rgba(255,255,255,.4);text-decoration:line-through">reads</span> <em style="font-style:italic;color:#fff">understands</em> their insurance policy.</h2>
+<p class="slide-p reveal reveal-d2" style="margin-bottom:40px;font-size:20px">Whether it's health, motor, life, travel, home, or commercial insurance — policy documents are <strong style="color:rgba(255,255,255,.85)">40+ pages of legal jargon</strong> that most policyholders never fully read. The result: avoidable claim rejections, unnecessary disputes, and a growing trust gap.</p>
+<div class="stats reveal-scale reveal-d3" style="padding:0">
+<div class="stat"><div class="stat-num">40+</div><div class="stat-label">pages in a typical insurance policy that most people never read</div></div>
+<div class="stat"><div class="stat-num">70%+</div><div class="stat-label">of policyholders discover exclusions only after a claim is rejected</div></div>
+<div class="stat"><div class="stat-num">Rs. 15,100Cr+</div><div class="stat-label">worth of insurance claims rejected in India annually</div></div>
+</div>
+</div>
+</div>
+
+<!-- SLIDE 3: WHAT WE DO -->
+<div class="slide">
+<div class="slide-inner">
+<div class="slide-label reveal">What we do</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:46px">We turn policy documents into <em style="font-style:italic">plain English</em>.</h2>
+<p class="slide-p reveal reveal-d3" style="font-size:20px"><span style="font-weight:700">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:24px">sure</em>ANCE</span> reads any insurance PDF — health, motor, life, travel, home — and gives you a clear breakdown: <strong style="color:var(--black)">what's covered</strong>, <strong style="color:var(--black)">what's excluded</strong>, <strong style="color:var(--black)">key conditions</strong>, <strong style="color:var(--red)">claim risk alerts</strong>, and a <strong style="color:var(--black)">claim-ready document checklist</strong>. In seconds.</p>
+</div>
+</div>
+
+<!-- SLIDE 4: HOW IT WORKS -->
+<div class="slide slide-dark">
+<div class="slide-inner">
+<div class="slide-label reveal">How it works</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:42px;margin-bottom:16px">Upload. Read. Understand.</h2>
+<p class="slide-p reveal reveal-d2" style="margin-bottom:36px;font-size:18px">Health. Motor. Life. Travel. Home. Commercial. Fire. Marine. Liability. We decode <em style="font-style:italic;color:rgba(255,255,255,.85)">all of them</em>.</p>
+<div class="how-steps">
+<div class="how-step reveal-up reveal-d1"><div class="how-step-title">Upload or scan</div><div class="how-step-sub">Drop your policy PDF or scan it with your phone camera. Any insurer, any policy type.</div></div>
+<div class="how-step reveal-up reveal-d2"><div class="how-step-title">AI reads every page</div><div class="how-step-sub">Our AI reads your entire policy and identifies coverage, exclusions, conditions, and red flags.</div></div>
+<div class="how-step reveal-up reveal-d3"><div class="how-step-title">You understand it</div><div class="how-step-sub">Get a plain-English summary with a claim-ready document checklist. Ask questions. Compare policies.</div></div>
+</div>
+</div>
+</div>
+
+<!-- SLIDE 6: CTA -->
+<div class="slide slide-dark" style="min-height:60vh">
+<div class="slide-inner" style="text-align:center">
+<h2 class="slide-h reveal" style="font-size:46px;max-width:520px;margin:0 auto 28px">See it in action.</h2>
+<button class="hero-cta reveal-up reveal-d1" id="heroCta" style="background:var(--white);color:var(--black);box-shadow:var(--shadow-lg)"><i class="ti ti-file-text"></i> Decode Policy</button>
+<div class="hero-sub reveal reveal-d2" style="margin-top:16px;color:rgba(255,255,255,.35)">Upload any insurance policy and get your results in seconds. No signup required.</div>
+</div>
+</div>
+
+</div>
+
+<!-- Tool Section (hidden until CTA clicked) -->
+<div id="toolSection" style="display:none">
+<div class="tool-header"><div class="logo">IN<em>sure</em>ANCE</div><div class="tagline">Policy intelligence, for everyone</div></div>
+
+<!-- SETUP — shown on first visit when no API key -->
+<div class="view" id="setupView">
+<div class="setup-box">
+<div class="setup-icon"><i class="ti ti-key"></i></div>
+<h2 class="setup-title">One-time setup</h2>
+<p class="setup-sub">To decode policies, this tool needs a Claude API key. Paste it below — it stays saved in your browser and is never sent anywhere except Anthropic's servers.</p>
+<div class="setup-input-row">
+<input type="password" class="setup-input" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off">
+<button class="setup-toggle" id="keyToggle"><i class="ti ti-eye"></i></button>
+</div>
+<button class="setup-btn" id="saveKeyBtn">Save and continue</button>
+<div class="setup-error" id="keyError"></div>
+<div class="setup-help">
+<p>Get your key from <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:var(--blue);font-weight:600">console.anthropic.com</a></p>
+</div>
+</div>
+</div>
+
+<!-- UPLOAD -->
+<div class="view" id="uploadView">
+<div class="upload-hero"><h1>Understand your insurance policy in&nbsp;seconds</h1><p>Upload any policy PDF or scan it with your camera — health, motor, life, travel, home — and we'll explain it in plain English.</p></div>
+<div class="dropzone" id="dropzone"><input type="file" id="fileInput" accept=".pdf,.txt"><div class="dz-icon"><i class="ti ti-file-upload"></i></div><div class="dz-title">Drop your policy PDF here</div><div class="dz-sub">or tap to browse files</div><div class="types"><span class="type-tag">Health</span><span class="type-tag">Motor</span><span class="type-tag">Life</span><span class="type-tag">Travel</span><span class="type-tag">Home</span><span class="type-tag">Business</span></div><button class="browse-btn">Browse files</button></div>
+<div style="text-align:center;margin:-8px 0 16px;font-size:13px;color:var(--gray);font-weight:600">or</div>
+<button class="camera-btn" id="cameraBtn"><i class="ti ti-camera"></i> Scan with camera</button>
+<input type="file" id="cameraInput" accept="image/*" capture="environment" multiple style="display:none">
+<div class="camera-pages" id="cameraPages" style="display:none">
+<div class="camera-pages-title"><span id="camPageCount">0 pages captured</span><button class="camera-add-btn" id="cameraAddBtn"><i class="ti ti-plus"></i> Add page</button></div>
+<div class="camera-thumbs" id="cameraThumbs"></div>
+<button class="decode-btn on" id="cameraDecode" style="margin-top:12px">Decode scanned policy</button>
+</div>
+<div class="file-card" id="fileCard"><i class="ti ti-file-text"></i><div class="fc-info"><div class="fc-name" id="fcName">-</div><div class="fc-meta" id="fcMeta">-</div></div><button class="fc-remove" id="fcRemove"><i class="ti ti-x"></i></button></div>
+<div class="warn-banner" id="warnBanner"><i class="ti ti-alert-triangle"></i><span id="warnText">-</span></div>
+<button class="decode-btn" id="decodeBtn" disabled>Decode my policy</button>
+<div class="char-info" id="charInfo"></div>
+<div class="features">
+<div class="feature" style="text-align:left"><i class="ti ti-check"></i><span>What is and isn't covered — in plain language</span></div>
+<div class="feature" style="text-align:left"><i class="ti ti-clock"></i><span>Waiting periods, limits and key conditions</span></div>
+<div class="feature" style="text-align:left"><i class="ti ti-checklist"></i><span>Claim documents checklist — tick off as you go</span></div>
+</div>
+<div class="hist-section" id="histSection" style="display:none">
+<div class="hist-title"><span>History</span><div style="display:flex;gap:12px"><button class="hist-clear" id="histViewAll">View all</button><button class="hist-clear" id="histClear">Clear all</button></div></div>
+<div class="hist-search" id="histSearchWrap" style="display:none;margin-bottom:12px">
+<input type="text" id="histSearch" placeholder="Search policies..." style="width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text);background:var(--card);font-family:inherit;outline:none">
+</div>
+<div id="histList"></div>
+<button id="histShowMore" style="display:none;width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;font-family:inherit;margin-top:8px;text-align:center"></button>
+</div>
+</div>
+
+<!-- LOADING -->
+<div class="view" id="loadingView"><div class="loading-center"><div class="spinner"></div><div class="loading-title">Reading your policy</div><div class="loading-sub" id="loadingSub">This usually takes 10-20 seconds</div><div class="loading-detail" id="loadingDetail"></div><div class="load-steps"><div class="ls" id="ls0"><span class="ls-dot"></span>Extracting text from document</div><div class="ls" id="ls1"><span class="ls-dot"></span>Detecting insurance type</div><div class="ls" id="ls2"><span class="ls-dot"></span>Identifying coverage and exclusions</div><div class="ls" id="ls3"><span class="ls-dot"></span>Building plain-language summary</div><div class="ls" id="ls4"><span class="ls-dot"></span>Preparing your claim checklist</div></div></div></div>
+
+<!-- ERROR -->
+<div class="view" id="errorView"><div class="error-center"><i class="ti ti-alert-circle"></i><div class="error-title" id="errorTitle">Could not process this file</div><div class="error-sub" id="errorSub">Something went wrong.</div><button class="retry-btn" id="retryBtn">Try again</button></div></div>
+
+<!-- RESULT -->
+<div class="view" id="resultView">
+<div class="result-header"><button class="back-link" id="backBtn"><i class="ti ti-arrow-left"></i> Back</button><div style="position:relative"><button class="share-btn" id="shareBtn"><i class="ti ti-share"></i> Share</button>
+<div class="share-menu" id="shareMenu">
+<button class="share-option whatsapp" data-share="whatsapp"><i class="ti ti-brand-whatsapp"></i><div><div class="so-label">WhatsApp</div><div class="so-sub">Send to a contact or group</div></div></button>
+<button class="share-option gmail" data-share="gmail"><i class="ti ti-brand-gmail"></i><div><div class="so-label">Gmail</div><div class="so-sub">Compose in Gmail</div></div></button>
+<button class="share-option mail" data-share="mail"><i class="ti ti-mail"></i><div><div class="so-label">Email</div><div class="so-sub">Open default mail app</div></div></button>
+<div class="share-divider"></div>
+<button class="share-option sms" data-share="sms"><i class="ti ti-message"></i><div><div class="so-label">SMS</div><div class="so-sub">Send as text message</div></div></button>
+<button class="share-option copy" data-share="copy"><i class="ti ti-copy"></i><div><div class="so-label">Copy to clipboard</div><div class="so-sub">Paste anywhere</div></div></button>
+</div>
+</div></div>
+<div class="result-hero" id="resultHero"></div>
+<div class="info-banner blue" id="infoBanner"><i class="ti ti-info-circle"></i><span id="infoBannerText"></span></div>
+<div id="resultCards"></div>
+<div class="compare-banner" id="compareBanner">
+<div class="compare-banner-title">Compare with another policy</div>
+<div class="compare-banner-sub" id="compareBannerSub">Upload another insurance policy to see how it compares — coverage, exclusions, and conditions side by side.</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="compare-btn" id="compareUploadBtn">Upload a second policy</button>
+<button class="compare-btn" id="compareHistBtn" style="background:var(--card);color:var(--blue);border:1.5px solid var(--blue);display:none">Compare from history</button>
+</div>
+<div id="compareHistPicker" style="display:none;margin-top:12px"></div>
+<input type="file" id="compareFileInput" accept=".pdf,.txt" style="display:none">
+</div>
+<div class="qa-section" id="qaSection">
+<div class="qa-title"><i class="ti ti-message-dots"></i> Ask about this policy</div>
+<div class="qa-sub">Ask anything specific — "does this cover knee surgery?", "what if I'm hospitalised abroad?"</div>
+<div class="qa-input-row"><input class="qa-input" id="qaInput" type="text" placeholder="Type your question..."><button class="qa-send" id="qaSend">Ask</button></div>
+<div class="qa-suggestions" id="qaSuggestions"></div>
+<div class="qa-answer" id="qaAnswer"></div>
+</div>
+<div class="tool-row">
+<div style="position:relative;display:inline-block;flex:1;min-width:180px" id="langWrap">
+<button class="tool-btn" id="langBtn" style="width:100%"><i class="ti ti-language"></i> <span id="translateLabel">Translate</span></button>
+<div class="lang-menu" id="langMenu">
+<button class="lang-opt" data-lang="Hindi">हिन्दी — Hindi</button>
+<button class="lang-opt" data-lang="Marathi">मराठी — Marathi</button>
+<button class="lang-opt" data-lang="Gujarati">ગુજરાતી — Gujarati</button>
+<button class="lang-opt" data-lang="Tamil">தமிழ் — Tamil</button>
+<button class="lang-opt" data-lang="Telugu">తెలుగు — Telugu</button>
+<button class="lang-opt" data-lang="Kannada">ಕನ್ನಡ — Kannada</button>
+<button class="lang-opt" data-lang="Malayalam">മലയാളം — Malayalam</button>
+<button class="lang-opt" data-lang="Bengali">বাংলা — Bengali</button>
+<button class="lang-opt" data-lang="Punjabi">ਪੰਜਾਬੀ — Punjabi</button>
+<button class="lang-opt" data-lang="Odia">ଓଡ଼ିଆ — Odia</button>
+<button class="lang-opt" data-lang="English">English</button>
+</div>
+</div>
+<button class="tool-btn" id="downloadBtn"><i class="ti ti-download"></i> Download summary</button>
+</div>
+<div class="hindi-box" id="hindiBox"><div class="hindi-box-label" id="transBoxLabel">Translation</div><div id="hindiText"></div></div>
+<div class="disclaimer"><i class="ti ti-alert-triangle"></i><span><strong>AI-generated summary — can make mistakes.</strong> Always refer to your original policy document before making any claim decisions.</span></div>
+<div class="action-row">
+<button class="action-btn" id="newBtn"><i class="ti ti-plus"></i> Decode another</button>
+</div>
+<div class="debug-toggle"><button class="debug-link" id="debugToggle">View extracted text</button></div>
+<div class="debug-box" id="debugBox"><pre id="debugText"></pre></div>
+</div>
+
+<!-- COMPARE -->
+<div class="view" id="compareView">
+<div class="result-header"><button class="back-link" id="compareBackBtn"><i class="ti ti-arrow-left"></i> Back to result</button></div>
+<div class="compare-header"><i class="ti ti-arrows-exchange"></i> Policy comparison</div>
+<div class="compare-pair" id="comparePair"></div>
+<div id="compareSections"></div>
+<div class="disclaimer"><i class="ti ti-alert-triangle"></i><span><strong>AI-generated comparison — can make mistakes.</strong> Always verify against your original policy documents.</span></div>
+<div class="action-row"><button class="action-btn" id="compareNewBtn"><i class="ti ti-plus"></i> Decode another policy</button></div>
+</div>
+
+</div><!-- /toolSection -->
+
+<div class="footer" id="siteFooter" style="text-align:center;padding:32px 24px 40px">
+<div style="font-size:22px;font-weight:700;color:var(--black);margin-bottom:6px;text-align:center">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:27px">sure</em>ANCE</div>
+<div style="font-size:13px;color:var(--gray);margin-bottom:16px;text-align:center">Policy intelligence, for everyone</div>
+<div style="font-size:12px;color:var(--gray);line-height:1.8;text-align:center;max-width:500px;margin:0 auto"><span style="font-weight:700;color:var(--black)">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:15px">sure</em>ANCE</span> is an informational tool and does not provide legal, financial or insurance advice.</div>
+<div style="font-size:12px;color:var(--gray);line-height:1.8;text-align:center;max-width:500px;margin:4px auto 0">All summaries are AI-generated and should be verified against the original policy document.</div>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScxiWD2TDSBoY8UCy5iMG4_eGPT5lTXOhrPgSG3yQO2BdWyHw/viewform" target="_blank" style="display:inline-block;margin-top:16px;padding:10px 24px;background:var(--black);color:var(--white);border-radius:10px;font-size:13px;font-weight:600;text-decoration:none;font-family:inherit">Contact Us</a>
+</div>
+</div>
+
+<!-- Signup Overlay -->
+<div class="signup-overlay" id="signupOverlay">
+<div class="signup-box">
+<h2>Welcome to IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:30px">sure</em>ANCE</h2>
+<p>Create your account to get started.</p>
+<input type="text" class="signup-input" id="signupName" placeholder="Your name" autocomplete="name">
+<input type="tel" class="signup-input" id="signupPhone" placeholder="Mobile number" maxlength="10" autocomplete="tel">
+<button class="signup-submit" id="signupSubmit">Continue</button>
+<div class="signup-error" id="signupError"></div>
+</div>
+</div>
+
+<!-- Welcome Overlay -->
+<div class="welcome-overlay" id="welcomeOverlay">
+<div class="welcome-logo">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:44px">sure</em>ANCE</div>
+<div class="welcome-name" id="welcomeName"></div>
+<div class="welcome-tagline">Policy intelligence, for everyone</div>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+var selectedFile=null,extractedText='',currentResult=null,history_=JSON.parse(localStorage.getItem('iance_hist')||'[]');
+var DIRECT_LIMIT=500000,CHUNK_SIZE=60000,CHUNK_OVERLAP=2000,TEXT_CAP=18000;
+function smartSample(text){
+  if(text.length<=TEXT_CAP)return text;
+  var first=Math.floor(TEXT_CAP*0.7);
+  var last=TEXT_CAP-first;
+  return text.substring(0,first)+'\n\n[...middle sections omitted...]\n\n'+text.substring(text.length-last);
+}
+function $(id){return document.getElementById(id)}
+function showView(n){['setupView','uploadView','loadingView','errorView','resultView','compareView'].forEach(function(v){$(v).classList.toggle('on',v===n+'View')});window.scrollTo(0,0);$('mainNav').style.display=(n==='loading'||n==='error')?'none':'flex'}
+function fmtSize(b){if(!b)return'';if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(1)+' MB'}
+function timeAgo(iso){var d=Date.now()-new Date(iso).getTime(),m=Math.floor(d/60000),h=Math.floor(d/3600000),dy=Math.floor(d/86400000);if(m<1)return'just now';if(m<60)return m+'m ago';if(h<24)return h+'h ago';return dy+'d ago'}
+function typeIcon(t){var l=(t||'').toLowerCase();if(l.indexOf('health')!==-1)return'ti-heart-rate-monitor';if(l.indexOf('motor')!==-1||l.indexOf('car')!==-1)return'ti-car';if(l.indexOf('life')!==-1||l.indexOf('term')!==-1)return'ti-shield';if(l.indexOf('travel')!==-1)return'ti-plane';if(l.indexOf('home')!==-1)return'ti-home';return'ti-file-text'}
+function typeBg(t){var l=(t||'').toLowerCase();if(l.indexOf('health')!==-1)return{bg:'#e5f5ec',c:'#1a6534'};if(l.indexOf('motor')!==-1)return{bg:'#fdf3e0',c:'#7a4a0a'};if(l.indexOf('life')!==-1||l.indexOf('term')!==-1)return{bg:'#f0e8f8',c:'#5b21b6'};if(l.indexOf('travel')!==-1)return{bg:'#e5edf8',c:'#1a3a6b'};return{bg:'#f5f5f0',c:'#5a5550'}}
+function resetFile(){selectedFile=null;extractedText='';$('fileInput').value='';$('fileCard').classList.remove('on');$('decodeBtn').classList.remove('on');$('decodeBtn').disabled=true;$('charInfo').classList.remove('on');$('warnBanner').classList.remove('on')}
+function saveHist(){
+  // Strip rawText to save localStorage space — keeps only decoded results
+  var slim=history_.map(function(h){
+    var copy={};for(var k in h){if(k!=='rawText')copy[k]=h[k]}
+    return copy;
+  });
+  try{localStorage.setItem('iance_hist',JSON.stringify(slim))}
+  catch(e){
+    // If storage full, remove oldest entries until it fits
+    while(slim.length>10){
+      slim.pop();
+      try{localStorage.setItem('iance_hist',JSON.stringify(slim));break}catch(e2){}
+    }
+  }
+}
+var histVisible=5,histFilter='';
+function renderHist(){
+  if(!history_.length){$('histSection').style.display='none';return}
+  $('histSection').style.display='block';
+  // Show search if more than 5 entries
+  $('histSearchWrap').style.display=history_.length>5?'block':'none';
+  // Filter
+  var filtered=history_;
+  if(histFilter){
+    var q=histFilter.toLowerCase();
+    filtered=history_.filter(function(p){
+      return(p.policyType||'').toLowerCase().indexOf(q)!==-1||(p.fileName||'').toLowerCase().indexOf(q)!==-1||(p.summary||'').toLowerCase().indexOf(q)!==-1;
+    });
+  }
+  var showing=filtered.slice(0,histVisible);
+  var remaining=filtered.length-showing.length;
+  $('histList').innerHTML=showing.map(function(p,i){
+    var origIdx=history_.indexOf(p);
+    var s=typeBg(p.policyType);
+    return'<div class="hist-item" data-idx="'+origIdx+'"><div class="hist-icon" style="background:'+s.bg+'"><i class="ti '+typeIcon(p.policyType)+'" style="color:'+s.c+'"></i></div><div class="hist-info"><div class="hist-name">'+p.policyType+'</div><div class="hist-meta">'+p.fileName+' · '+timeAgo(p.decodedAt)+'</div></div><i class="ti ti-chevron-right hist-chevron"></i></div>'
+  }).join('');
+  if(!showing.length&&histFilter){
+    $('histList').innerHTML='<div style="text-align:center;padding:20px;font-size:13px;color:var(--gray)">No policies match "'+histFilter+'"</div>';
+  }
+  // Show more button
+  var moreBtn=$('histShowMore');
+  if(remaining>0){
+    moreBtn.style.display='block';
+    moreBtn.textContent='Show '+Math.min(remaining,10)+' more of '+filtered.length+' policies';
+  }else{
+    moreBtn.style.display='none';
+  }
+  // Click handlers
+  $('histList').querySelectorAll('.hist-item').forEach(function(el){
+    el.addEventListener('click',function(){
+      var idx=parseInt(this.dataset.idx);
+      currentResult=history_[idx];
+      renderResult(currentResult);
+      showView('result');
+    })
+  });
+}
+async function handleFile(f){selectedFile=f;$('fcName').textContent=f.name;$('fcMeta').textContent=fmtSize(f.size)+' · Reading...';$('fileCard').classList.add('on');$('warnBanner').classList.remove('on');$('charInfo').classList.remove('on');var t=await extractText(f,function(c,tot){$('fcMeta').textContent=fmtSize(f.size)+' · Page '+c+'/'+tot});extractedText=t.content;if(t.status==='ok'){$('fcMeta').textContent=fmtSize(f.size)+' · '+t.pageCount+' page'+(t.pageCount!==1?'s':'')+' read';$('charInfo').textContent=t.charCount.toLocaleString()+' characters extracted';$('charInfo').classList.add('on');$('decodeBtn').classList.add('on');$('decodeBtn').disabled=false}else if(t.status==='low_text'){$('fcMeta').textContent=fmtSize(f.size)+' · Very little text found';$('warnText').textContent='Scanned or image PDF detected — only '+t.charCount+' characters found. Try a digital PDF for better results.';$('warnBanner').classList.add('on');$('decodeBtn').classList.add('on');$('decodeBtn').disabled=false}else{$('fcMeta').textContent=fmtSize(f.size)+' · Could not read';$('warnText').textContent='Could not extract text. File may be corrupted or password-protected.';$('warnBanner').classList.add('on');$('decodeBtn').classList.add('on');$('decodeBtn').disabled=false}}
+$('fileInput').addEventListener('change',function(e){if(e.target.files[0])handleFile(e.target.files[0])});
+$('dropzone').addEventListener('dragover',function(e){e.preventDefault();this.classList.add('over')});
+$('dropzone').addEventListener('dragleave',function(){this.classList.remove('over')});
+$('dropzone').addEventListener('drop',function(e){e.preventDefault();this.classList.remove('over');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0])});
+$('fcRemove').addEventListener('click',resetFile);
+$('histClear').addEventListener('click',function(){if(confirm('Clear all decoded policies from history?')){history_=[];saveHist();histVisible=5;histFilter='';if($('histSearch'))$('histSearch').value='';renderHist()}});
+$('histViewAll').addEventListener('click',function(){histVisible=history_.length;renderHist()});
+$('histSearch').addEventListener('input',function(){histFilter=this.value.trim();histVisible=5;renderHist()});
+$('histShowMore').addEventListener('click',function(){histVisible+=10;renderHist()});
+async function extractText(f,onP){if(f.name.toLowerCase().endsWith('.txt')||f.type==='text/plain'){try{var c=await new Promise(function(r,j){var fr=new FileReader();fr.onload=function(e){r(e.target.result)};fr.onerror=j;fr.readAsText(f)});return{status:c.trim().length>40?'ok':'low_text',content:c,charCount:c.length,pageCount:1}}catch(e){return{status:'failed',content:'',charCount:0,pageCount:0}}}try{var buf=await f.arrayBuffer(),pdf=await pdfjsLib.getDocument({data:buf}).promise,txt='',tot=pdf.numPages;for(var i=1;i<=tot;i++){var pg=await pdf.getPage(i),ct=await pg.getTextContent();txt+=ct.items.map(function(x){return x.str}).join(' ')+'\n\n';if(onP)onP(i,tot);pg.cleanup&&pg.cleanup()}var tr=txt.trim();if(tr.length<300)return{status:'low_text',content:tr,charCount:tr.length,pageCount:tot};return{status:'ok',content:tr,charCount:tr.length,pageCount:tot}}catch(e){return{status:'failed',content:'',charCount:0,pageCount:0}}}
+var loadTimer=null;
+function startLoading(){showView('loading');$('loadingDetail').classList.remove('on');$('loadingSub').textContent='This usually takes a few seconds';var ids=['ls0','ls1','ls2','ls3','ls4'];ids.forEach(function(id){$(id).className='ls'});var i=0;$(ids[0]).classList.add('active');if(loadTimer)clearInterval(loadTimer);loadTimer=setInterval(function(){if(i>=ids.length-1)return;$(ids[i]).classList.remove('active');$(ids[i]).classList.add('done');i++;$(ids[i]).classList.add('active')},600)}
+function updateDetail(t){$('loadingDetail').textContent=t;$('loadingDetail').classList.add('on')}
+function splitChunks(t,s,o){var ch=[],st=0;while(st<t.length){var e=Math.min(st+s,t.length);ch.push(t.slice(st,e));if(e>=t.length)break;st=e-o}return ch}
+// PASTE YOUR API KEY BELOW — between the quotes
+var GEMINI_KEY='';
+function getKey(){return ''}
+async function callClaude(p,m){
+  var attempts=0;var maxAttempts=3;
+  while(attempts<maxAttempts){
+    attempts++;
+    try{
+      var body={max_tokens:m||4096,messages:[{role:'user',content:p}]};
+      var r=await fetch('/.netlify/functions/decode',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(body)
+      });
+      if(r.status===529||r.status===503||r.status===500){
+        if(attempts<maxAttempts){await new Promise(function(res){setTimeout(res,2000*attempts)});continue}
+      }
+      if(r.status===429){
+        if(attempts<maxAttempts){await new Promise(function(res){setTimeout(res,3000*attempts)});continue}
+        throw new Error('Too many requests. Please try again in a moment.');
+      }
+      if(!r.ok){var errBody='';try{var ej=await r.json();errBody=ej.error&&ej.error.message||JSON.stringify(ej)}catch(e){errBody='Status '+r.status}throw new Error(errBody)}
+      var d=await r.json();
+      var raw=d.content&&d.content[0]&&d.content[0].text||'';
+      return repairJSON(raw);
+    }catch(e){
+      if(attempts>=maxAttempts)throw e;
+      if(e.message&&(e.message.indexOf('fetch')!==-1||e.message.indexOf('network')!==-1||e.message.indexOf('Failed')!==-1)){
+        await new Promise(function(res){setTimeout(res,2000*attempts)});continue;
+      }
+      throw e;
+    }
+  }
+}
+function buildPrompt(t){var sampled=smartSample(t);var hindiCheck=/[\u0900-\u097F]/.test(sampled.substring(0,500));return(hindiCheck?'This document is in Hindi. Read it and return the JSON response IN HINDI. ':'')+'Read this insurance policy. Return ONLY valid JSON. Keep ALL values SHORT (under 15 words each). DO NOT add info not in the document.\n{"policy_type":"","policy_subtype":"individual/family floater/group/commercial","insurer":"name of insurance company","premium":"annual premium if mentioned","sum_insured":"total sum insured","renewal_month":"renewal month if mentioned","members_covered":"number covered if mentioned","summary":"1-2 short sentences","covered":["max 5 short items"],"not_covered":["max 5 short items"],"conditions":[{"label":"","value":""}],"checklist":["max 5 docs"],"red_flags":["max 3 short items"],"top_exclusion":"most important exclusion","score":72,"score_breakdown":{"coverage":18,"risk_protection":15,"claim_readiness":20,"transparency":19},"whats_missing":["max 3 gaps"],"score_reason":"1 sentence explaining score","money_at_risk":{"scenario":"a realistic common claim scenario for this policy type eg hospitalization or accident or theft","total_bill":"estimated total cost eg Rs 3,00,000","insurer_pays":"what insurer pays after sub-limits and co-pay eg Rs 1,80,000","you_pay":"what policyholder pays from pocket eg Rs 1,20,000","why":["max 3 short reasons why you pay from pocket eg room rent sub-limit, co-pay clause"]},"claim_scenarios":[{"scenario":"short scenario name","covered":"yes/no/partial","detail":"1 sentence what happens"}],"is_demo":false,"language":"'+(hindiCheck?'hindi':'english')+'"}\nscore is 0-100. Each breakdown 0-25. money_at_risk must show a REALISTIC claim scenario with real rupee amounts based on policy terms. claim_scenarios show 3 common situations. Be strict and honest. ONLY valid JSON.\n\n'+sampled}
+function repairJSON(raw){
+  var s=raw.replace(/```json|```/g,'').trim();
+  try{return JSON.parse(s)}catch(e){}
+  // Try to repair truncated JSON
+  var fixed=s;
+  // Close any open strings
+  var inStr=false;for(var i=0;i<fixed.length;i++){if(fixed[i]==='"'&&(i===0||fixed[i-1]!=='\\'))inStr=!inStr}
+  if(inStr)fixed+='"';
+  // Close open arrays and objects
+  var opens=0,closes=0;
+  for(var i=0;i<fixed.length;i++){if(fixed[i]==='[')opens++;if(fixed[i]===']')closes++}
+  for(var i=0;i<opens-closes;i++)fixed+=']';
+  opens=0;closes=0;
+  for(var i=0;i<fixed.length;i++){if(fixed[i]==='{')opens++;if(fixed[i]==='}')closes++}
+  for(var i=0;i<opens-closes;i++)fixed+='}';
+  // Remove trailing commas before closing brackets
+  fixed=fixed.replace(/,\s*]/g,']').replace(/,\s*}/g,'}');
+  try{return JSON.parse(fixed)}catch(e){
+    // Last resort: try to extract partial valid JSON
+    var lastBrace=fixed.lastIndexOf('}');
+    if(lastBrace>0){try{return JSON.parse(fixed.substring(0,lastBrace+1))}catch(e2){}}
+    throw new Error('Could not parse response. Try a shorter policy document.');
+  }
+}
+function buildChunkPrompt(c,i,n){return'Part '+(i+1)+'/'+n+' of a large policy. Extract facts as JSON:\n{"policy_type_hints":[],"covered_points":[],"excluded_points":[],"condition_facts":[{"label":"","value":""}],"claim_doc_mentions":[]}\nOnly this fragment. ONLY JSON.\n\n'+c}
+function buildSynthPrompt(n,f){return'Synthesise notes from "'+f+'" into one analysis. ONLY JSON:\n{"policy_type":"","summary":"","covered":[],"not_covered":[],"conditions":[{"label":"","value":""}],"checklist":[],"is_demo":false}\nDeduplicate. 5-8 each. ONLY JSON.\n\n'+JSON.stringify(n,null,2)}
+$('decodeBtn').addEventListener('click',async function(){if(!selectedFile||this.disabled)return;this.disabled=true;var fn=selectedFile.name,tx=extractedText;startLoading();var isL=tx.length>DIRECT_LIMIT;if(isL)$('loadingSub').textContent='Long document — may take a minute';var res=null,err=null;try{if(!isL){res=await callClaude(buildPrompt(tx),4096)}else{var ch=splitChunks(tx,CHUNK_SIZE,CHUNK_OVERLAP),MAX=25,sam=false;if(ch.length>MAX){sam=true;var s=[];var step=ch.length/MAX;for(var j=0;j<MAX;j++)s.push(ch[Math.floor(j*step)]);ch=s}updateDetail('Analysing '+ch.length+' sections'+(sam?' (sampled)':''));var notes=[];for(var i=0;i<ch.length;i++){updateDetail('Section '+(i+1)+'/'+ch.length);notes.push(await callClaude(buildChunkPrompt(ch[i],i,ch.length),2000))}updateDetail('Combining...');res=await callClaude(buildSynthPrompt(notes,fn),4096)}}catch(e){err=e.message}if(loadTimer)clearInterval(loadTimer);if(!res){$('errorTitle').textContent='Could not analyse this policy';$('errorSub').textContent=err||'Something unexpected happened. Try a different PDF.';showView('error');$('decodeBtn').disabled=false;return}currentResult={fileName:fn,policyType:res.policy_type,policySubtype:res.policy_subtype||'',insurer:res.insurer||'',premium:res.premium||'',sumInsured:res.sum_insured||'',policyTerm:res.policy_term||'',renewalMonth:res.renewal_month||'',membersCovered:res.members_covered||'',topExclusion:res.top_exclusion||'',score:res.score||0,scoreBreakdown:res.score_breakdown||{coverage:0,risk_protection:0,claim_readiness:0,transparency:0},whatsMissing:res.whats_missing||[],scoreReason:res.score_reason||'',moneyAtRisk:res.money_at_risk||null,claimScenarios:res.claim_scenarios||[],summary:res.summary,covered:res.covered||[],notCovered:res.not_covered||[],conditions:res.conditions||[],checklist:res.checklist||[],redFlags:res.red_flags||[],isDemo:!!res.is_demo,language:res.language||'english',lowText:tx.trim().length<300,wasChunked:isL,rawText:tx,decodedAt:new Date().toISOString()};history_.unshift(currentResult);saveHist();try{var td={policy_type:currentResult.policyType||'',policy_subtype:currentResult.policySubtype||'',insurer:currentResult.insurer||'Unknown',premium:currentResult.premium||'',sum_insured:currentResult.sumInsured||'',renewal_month:currentResult.renewalMonth||'',members_covered:currentResult.membersCovered||'',top_exclusion:currentResult.topExclusion||'',score:currentResult.score||0,exclusions_count:(currentResult.notCovered||[]).length,red_flags_count:(currentResult.redFlags||[]).length,conditions_count:(currentResult.conditions||[]).length,device:/Mobile|Android|iPhone/i.test(navigator.userAgent)?'Mobile':'Desktop',user_name:(JSON.parse(localStorage.getItem('iance_user')||'{}')).name||'anonymous'};var wu='https://script.google.com/macros/s/AKfycbzQ_Xah2gRC2fLgArFuKhB-DZQ0Ih4FFpNLEUDY5KTfyYKb4AcYSn3Se0FgxaO9bBAh/exec';if(wu){var img=new Image();img.src=wu+'?data='+encodeURIComponent(JSON.stringify(td))}}catch(e){}renderResult(currentResult);showView('result');resetFile();$('decodeBtn').disabled=false});
+$('retryBtn').addEventListener('click',function(){showView('upload');renderHist()});
+$('backBtn').addEventListener('click',function(){showView('upload');renderHist()});
+$('newBtn').addEventListener('click',function(){showView('upload');renderHist()});
+$('compareNewBtn').addEventListener('click',function(){showView('upload');renderHist()});
+$('compareBackBtn').addEventListener('click',function(){showView('result')});
+function renderResult(p){
+  var isHindi=p.language==='hindi'||/[\u0900-\u097F]/.test(p.summary||'');
+  $('translateLabel').textContent='Translate';
+  // Insurance Health Score
+  var sc=p.score||0;var sb=p.scoreBreakdown||{coverage:0,risk_protection:0,claim_readiness:0,transparency:0};
+  var scoreColor=sc>=75?'#22c55e':sc>=50?'#f59e0b':'#ef4444';
+  var circumference=408;var offset=circumference-(sc/100)*circumference;
+  var scoreHtml='<div class="score-card"><div class="score-label">Insurance Health Score</div><div class="score-circle"><svg width="140" height="140" viewBox="0 0 140 140"><circle class="score-circle-bg" cx="70" cy="70" r="65"/><circle class="score-circle-fill" cx="70" cy="70" r="65" style="stroke:'+scoreColor+';stroke-dasharray:'+circumference+';stroke-dashoffset:'+offset+'"/></svg><div class="score-number" style="color:'+scoreColor+'">'+sc+'</div></div><div class="score-reason">'+(p.scoreReason||'')+'</div><div class="score-breakdown"><div class="score-cat"><div class="score-cat-label">Coverage</div><div class="score-cat-num">'+(sb.coverage||0)+'/25</div><div class="score-cat-bar"><div class="score-cat-fill" style="width:'+((sb.coverage||0)/25*100)+'%;background:'+scoreColor+'"></div></div></div><div class="score-cat"><div class="score-cat-label">Risk Protection</div><div class="score-cat-num">'+(sb.risk_protection||0)+'/25</div><div class="score-cat-bar"><div class="score-cat-fill" style="width:'+((sb.risk_protection||0)/25*100)+'%;background:'+scoreColor+'"></div></div></div><div class="score-cat"><div class="score-cat-label">Claim Readiness</div><div class="score-cat-num">'+(sb.claim_readiness||0)+'/25</div><div class="score-cat-bar"><div class="score-cat-fill" style="width:'+((sb.claim_readiness||0)/25*100)+'%;background:'+scoreColor+'"></div></div></div><div class="score-cat"><div class="score-cat-label">Transparency</div><div class="score-cat-num">'+(sb.transparency||0)+'/25</div><div class="score-cat-bar"><div class="score-cat-fill" style="width:'+((sb.transparency||0)/25*100)+'%;background:'+scoreColor+'"></div></div></div></div><button class="score-share" onclick="shareScore()"><i class="ti ti-share"></i> Share your score</button></div>';
+  // What's Missing
+  var missingHtml='';
+  if(p.whatsMissing&&p.whatsMissing.length>0){
+    missingHtml='<div class="score-missing"><div class="score-missing-title"><i class="ti ti-alert-circle" style="color:var(--amber)"></i> What\'s missing from your policy</div>'+p.whatsMissing.map(function(m){return'<div class="score-missing-item"><i class="ti ti-circle-x" style="color:var(--red);flex-shrink:0;margin-top:2px"></i><span>'+m+'</span></div>'}).join('')+'</div>';
+  }
+  $('resultHero').innerHTML=scoreHtml+'<div class="rh-type"><i class="ti '+typeIcon(p.policyType)+'"></i> '+p.policyType+'</div><div class="rh-title">'+p.fileName.replace(/\.(pdf|txt)$/i,'').replace(/_/g,' ')+'</div><div class="rh-summary">'+p.summary+'</div>'+(p.isDemo?'<div class="rh-demo">Demo analysis</div>':'')+missingHtml+(function(){
+    // Money at Risk
+    var mar=p.moneyAtRisk;
+    if(!mar||!mar.scenario)return '';
+    var riskHtml='<div class="risk-card"><div class="risk-label"><i class="ti ti-alert-triangle"></i> Your money at risk</div><div class="risk-scenario"><strong>Scenario:</strong> '+mar.scenario+'</div><div class="risk-amounts"><div class="risk-amount"><div class="risk-amount-label">Total bill</div><div class="risk-amount-num" style="color:rgba(255,255,255,.9)">'+(mar.total_bill||'—')+'</div></div><div class="risk-amount"><div class="risk-amount-label">Insurer pays</div><div class="risk-amount-num green">'+(mar.insurer_pays||'—')+'</div></div><div class="risk-amount" style="grid-column:span 2"><div class="risk-amount-label">You pay from your pocket</div><div class="risk-amount-num red" style="font-size:32px">'+(mar.you_pay||'—')+'</div></div></div>';
+    if(mar.why&&mar.why.length>0){
+      riskHtml+='<div class="risk-why">'+mar.why.map(function(w){return'<div class="risk-why-item"><div class="risk-why-dot"></div><span>'+w+'</span></div>'}).join('')+'</div>';
+    }
+    riskHtml+='</div>';
+    // Claim Scenarios
+    var cs=p.claimScenarios;
+    if(cs&&cs.length>0){
+      riskHtml+='<div class="scenarios-card"><div class="scenarios-title"><i class="ti ti-list-check"></i> Common claim scenarios</div>';
+      riskHtml+=cs.map(function(s){
+        var badge=s.covered==='yes'?'yes':s.covered==='no'?'no':'partial';
+        var badgeText=s.covered==='yes'?'Covered':s.covered==='no'?'Not covered':'Partial';
+        return'<div class="scenario-row"><div class="scenario-badge '+badge+'">'+badgeText+'</div><div class="scenario-text"><div class="scenario-name">'+s.scenario+'</div><div class="scenario-detail">'+s.detail+'</div></div></div>';
+      }).join('')+'</div>';
+    }
+    return riskHtml;
+  })();
+  var b=$('infoBanner'),bt=$('infoBannerText');
+  if(p.lowText&&!p.isDemo){bt.textContent='Limited text extracted — summary may be incomplete.';b.style.display='flex'}
+  else if(p.wasChunked){bt.textContent='Long document analysed in sections. Cross-check details against original.';b.style.display='flex'}
+  else{b.style.display='none'}
+  var cards='';
+  cards+=makeCard('covered',"What's covered",p.covered.length,'ti-check','green',p.covered.map(function(i){return'<div class="res-item"><div class="res-dot green"></div><span>'+i+'</span></div>'}).join(''));
+  cards+=makeCard('excluded',"What's NOT covered",p.notCovered.length,'ti-x','red',p.notCovered.map(function(i){return'<div class="res-item"><div class="res-dot red"></div><span>'+i+'</span></div>'}).join(''));
+  var co='<div class="cond-grid">'+p.conditions.map(function(c){return'<div class="cond-card"><div class="cond-l">'+c.label+'</div><div class="cond-v">'+c.value+'</div></div>'}).join('')+'</div>';
+  cards+=makeCard('conditions','Key conditions',null,'ti-clock','amber',co);
+  var cl=p.checklist.map(function(item){return'<div class="chk-row" onclick="toggleChk(this)"><div class="chkbox"></div><span class="chk-lbl">'+item+'</span></div>'}).join('')+'<div class="chk-prog" id="chkProg">0 of '+p.checklist.length+' ready</div>';
+  cards+=makeCard('checklist','Claim documents',p.checklist.length,'ti-checklist','gray',cl);
+  // Red flags — below checklist
+  if(p.redFlags&&p.redFlags.length>0&&!p.isDemo){
+    var rfBody=p.redFlags.map(function(f){return'<div class="rf-item"><i class="ti ti-alert-triangle rf-icon"></i><span>'+f+'</span></div>'}).join('');
+    cards+=makeCard('redflags','Claim risk alerts',p.redFlags.length,'ti-alert-triangle','red',rfBody);
+  }
+  $('resultCards').innerHTML=cards;
+  if(document.getElementById('body-covered')){
+    document.getElementById('body-covered').classList.add('open');
+    document.querySelector('#covered .res-chevron').classList.add('open');
+  }
+  if(p.redFlags&&p.redFlags.length>0&&!p.isDemo&&document.getElementById('body-redflags')){
+    document.getElementById('body-redflags').classList.add('open');
+    document.querySelector('#redflags .res-chevron').classList.add('open');
+  }
+  // Q&A suggestions based on type
+  var qs=[];var tl=(p.policyType||'').toLowerCase();
+  if(tl.indexOf('health')!==-1){qs=['Am I covered for knee surgery?','Does this cover pre-existing diabetes?','What if I need treatment abroad?','Is dental covered?']}
+  else if(tl.indexOf('motor')!==-1){qs=['Am I covered if car is stolen?','Does this cover engine damage from floods?','What about accidents outside the city?','Is windshield damage covered?']}
+  else if(tl.indexOf('life')!==-1||tl.indexOf('term')!==-1){qs=['What happens if I miss a premium?','Is accidental death covered extra?','Can my nominee be changed?','What about death abroad?']}
+  else if(tl.indexOf('travel')!==-1){qs=['Am I covered for trip cancellation?','What about lost baggage?','Does this cover adventure sports?','Medical emergency coverage limit?']}
+  else{qs=['What is the most important exclusion?','When does coverage actually start?','What is my maximum claim limit?','Are there any hidden co-payments?']}
+  $('qaSuggestions').innerHTML=qs.map(function(q){return'<button class="qa-chip" data-qq="'+q+'">'+q+'</button>'}).join('');
+  $('qaAnswer').classList.remove('on');$('qaInput').value='';
+  // Reset Hindi box
+  $('hindiBox').classList.remove('on');$('hindiText').textContent='';
+  // Compare banner
+  if(!p.isDemo){
+    $('compareBannerSub').textContent='Upload another insurance policy to see how it compares — coverage, exclusions, and conditions side by side.';
+    $('compareBanner').classList.add('on');
+    var others=history_.filter(function(h){return h.fileName!==p.fileName});
+    $('compareHistBtn').style.display=others.length>0?'inline-flex':'none';
+    $('compareHistPicker').style.display='none';$('compareHistPicker').innerHTML='';
+  }else{$('compareBanner').classList.remove('on')}
+  var raw=p.rawText||'';$('debugText').textContent=raw.substring(0,30000)+(raw.length>30000?'\n\n...(truncated)':'');
+  $('debugBox').classList.remove('on');$('debugToggle').textContent='View extracted text'+(raw.length?' — '+raw.length.toLocaleString()+' chars':'');
+}
+function makeCard(id,label,count,icon,color,body){return'<div class="res-card" id="'+id+'"><div class="res-head" onclick="toggleCard(\''+id+'\')"><div class="res-pill '+color+'"><i class="ti '+icon+'"></i></div><span class="res-head-label">'+label+'</span>'+(count!=null?'<span class="res-count">'+count+'</span>':'')+'<span class="res-chevron ti ti-chevron-right"></span></div><div class="res-body" id="body-'+id+'">'+body+'</div></div>'}
+function toggleCard(id){document.getElementById('body-'+id).classList.toggle('open');document.querySelector('#'+id+' .res-chevron').classList.toggle('open')}
+function toggleChk(r){var b=r.querySelector('.chkbox'),l=r.querySelector('.chk-lbl');b.classList.toggle('on');l.classList.toggle('chk-done',b.classList.contains('on'));var t=document.querySelectorAll('.chkbox').length,d=document.querySelectorAll('.chkbox.on').length;var pg=document.getElementById('chkProg');if(pg)pg.textContent=d+' of '+t+' ready'}
+// Share menu
+function getShareText(){
+  if(!currentResult)return'';
+  return['INsureANCE — '+currentResult.policyType,'',currentResult.summary,'','COVERED'].concat(currentResult.covered.map(function(i){return'- '+i})).concat(['','NOT COVERED']).concat(currentResult.notCovered.map(function(i){return'- '+i})).concat(['','CLAIM DOCUMENTS']).concat(currentResult.checklist.map(function(i,n){return(n+1)+'. '+i})).concat(['','Decoded by INsureANCE — insureance.in']).join('\n');
+}
+$('shareBtn').addEventListener('click',function(e){
+  e.stopPropagation();
+  $('shareMenu').classList.toggle('on');
+});
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.share-menu')&&!e.target.closest('#shareBtn')){
+    $('shareMenu').classList.remove('on');
+  }
+});
+document.querySelectorAll('[data-share]').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var type=this.dataset.share;
+    var text=getShareText();
+    var subject='INsureANCE — '+((currentResult&&currentResult.policyType)||'Policy')+' Summary';
+    var encoded=encodeURIComponent(text);
+    var subjectEnc=encodeURIComponent(subject);
+    $('shareMenu').classList.remove('on');
+    if(type==='whatsapp'){
+      window.open('https://wa.me/?text='+encoded,'_blank');
+    }else if(type==='gmail'){
+      window.open('https://mail.google.com/mail/?view=cm&su='+subjectEnc+'&body='+encoded,'_blank');
+    }else if(type==='mail'){
+      window.location.href='mailto:?subject='+subjectEnc+'&body='+encoded;
+    }else if(type==='sms'){
+      window.location.href='sms:?body='+encoded;
+    }else if(type==='copy'){
+      navigator.clipboard.writeText(text).then(function(){
+        var btn2=$('shareBtn');
+        var orig=btn2.innerHTML;
+        btn2.innerHTML='<i class="ti ti-check"></i> Copied';
+        setTimeout(function(){btn2.innerHTML=orig},1500);
+      });
+    }
+  });
+});
+$('debugToggle').addEventListener('click',function(){var b=$('debugBox');b.classList.toggle('on');this.textContent=b.classList.contains('on')?'Hide extracted text':'View extracted text'+(currentResult&&currentResult.rawText?' — '+currentResult.rawText.length.toLocaleString()+' chars':'')});
+// Q&A — ask a question about the current policy
+function handleQA(){
+  var q=$('qaInput').value.trim();if(!q||!currentResult)return;
+  var a=$('qaAnswer');a.innerHTML='<em style="color:var(--gray)">Reading your policy to answer this...</em>';a.classList.add('on');
+  var ctx='Policy type: '+currentResult.policyType+'\nSummary: '+currentResult.summary+'\nCovered: '+currentResult.covered.join(', ')+'\nNot covered: '+currentResult.notCovered.join(', ')+'\nConditions: '+currentResult.conditions.map(function(c){return c.label+': '+c.value}).join(', ')+'\nRed flags: '+(currentResult.redFlags||[]).join(', ');
+  var prompt='You are an insurance policy expert. A user has uploaded their policy and it has been decoded as follows:\n\n'+ctx+'\n\nThe user asks: "'+q+'"\n\nAnswer in 2-4 sentences, plain English, based ONLY on what the decoded policy says. If the answer is not clear from the decoded data, say so honestly. Be specific to THIS policy, not generic advice. Do not use markdown formatting.';
+  fetch('/.netlify/functions/decode',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({max_tokens:400,messages:[{role:'user',content:prompt}]})}).then(function(r){return r.json()}).then(function(d){a.innerHTML=(d.content&&d.content[0]&&d.content[0].text)||'Could not generate an answer. Try rephrasing your question.'}).catch(function(){a.innerHTML='Could not connect to AI service. Please check your connection.'})
+}
+$('qaSend').addEventListener('click',handleQA);
+$('qaInput').addEventListener('keydown',function(e){if(e.key==='Enter')handleQA()});
+document.addEventListener('click',function(e){var chip=e.target.closest('[data-qq]');if(chip){$('qaInput').value=chip.dataset.qq;handleQA()}});
+// Translation — multi-language
+$('langBtn').addEventListener('click',function(e){e.stopPropagation();$('langMenu').classList.toggle('on')});
+document.addEventListener('click',function(e){if(!e.target.closest('#langWrap'))$('langMenu').classList.remove('on')});
+document.querySelectorAll('.lang-opt').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var lang=this.dataset.lang;
+    $('langMenu').classList.remove('on');
+    if(!currentResult)return;
+    var box=$('hindiBox');
+    $('transBoxLabel').textContent=lang+' translation';
+    $('hindiText').innerHTML='<em style="color:var(--gray)">Translating to '+lang+'...</em>';
+    box.classList.add('on');
+    var prompt='Translate the following insurance policy summary into simple '+lang+(lang!=='English'?' (use '+lang+' script)':'')+'. Keep insurance terms in English where needed. Do not use markdown.\n\nPolicy type: '+currentResult.policyType+'\nSummary: '+currentResult.summary+'\n\nCovered:\n'+currentResult.covered.join('\n')+'\n\nNot covered:\n'+currentResult.notCovered.join('\n')+'\n\nKey conditions:\n'+currentResult.conditions.map(function(c){return c.label+': '+c.value}).join('\n');
+    fetch('/.netlify/functions/decode',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({max_tokens:2000,messages:[{role:'user',content:prompt}]})}).then(function(r){return r.json()}).then(function(d){$('hindiText').innerHTML=((d.content&&d.content[0]&&d.content[0].text)||'Translation failed.').replace(/\n/g,'<br>')}).catch(function(){$('hindiText').textContent='Could not connect. Check your connection.'})
+  });
+});
+// Download summary as text
+$('downloadBtn').addEventListener('click',function(){
+  if(!currentResult)return;var p=currentResult;
+  var lines=['INsureANCE — Policy Decoded','','Policy Type: '+p.policyType,'File: '+p.fileName,'','SUMMARY','',p.summary,''];
+  if(p.redFlags&&p.redFlags.length){lines.push('CLAIM RISK ALERTS','');p.redFlags.forEach(function(f){lines.push('! '+f)});lines.push('')}
+  lines.push("WHAT'S COVERED",'');p.covered.forEach(function(i){lines.push('+ '+i)});lines.push('');
+  lines.push("WHAT'S NOT COVERED",'');p.notCovered.forEach(function(i){lines.push('- '+i)});lines.push('');
+  lines.push('KEY CONDITIONS','');p.conditions.forEach(function(c){lines.push(c.label+': '+c.value)});lines.push('');
+  lines.push('CLAIM DOCUMENTS NEEDED','');p.checklist.forEach(function(i,n){lines.push((n+1)+'. '+i)});
+  lines.push('','---','Decoded by INsureANCE. For reference only — always check your original policy document.');
+  var blob=new Blob([lines.join('\n')],{type:'text/plain'});var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download=p.fileName.replace(/\.(pdf|txt)$/i,'')+'_decoded.txt';a.click();URL.revokeObjectURL(url)
+});
+// Compare flow
+$('compareUploadBtn').addEventListener('click',function(){$('compareFileInput').click()});
+$('compareHistBtn').addEventListener('click',function(){
+  var picker=$('compareHistPicker');
+  if(picker.style.display==='block'){picker.style.display='none';return}
+  var others=history_.filter(function(h){return h.fileName!==currentResult.fileName});
+  picker.innerHTML='<div style="font-size:12px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.6px;margin-bottom:8px">Select a policy to compare</div>'+others.map(function(h,i){
+    var s=typeBg(h.policyType);
+    return'<div class="hist-item compare-pick" data-cidx="'+i+'" style="margin-bottom:6px"><div class="hist-icon" style="background:'+s.bg+'"><i class="ti '+typeIcon(h.policyType)+'" style="color:'+s.c+'"></i></div><div class="hist-info"><div class="hist-name">'+h.policyType+'</div><div class="hist-meta">'+h.fileName+'</div></div><i class="ti ti-chevron-right hist-chevron"></i></div>'
+  }).join('');
+  picker.style.display='block';
+  picker.querySelectorAll('.compare-pick').forEach(function(el){
+    el.addEventListener('click',function(){
+      var idx=parseInt(this.dataset.cidx);
+      var others2=history_.filter(function(h){return h.fileName!==currentResult.fileName});
+      var second=others2[idx];
+      if(second&&currentResult){
+        renderComparison(currentResult,second);
+        showView('compare');
+      }
+    })
+  })
+});
+$('compareFileInput').addEventListener('change',async function(e){
+  if(!e.target.files[0]||!currentResult)return;
+  var file=e.target.files[0];
+  startLoading();$('loadingSub').textContent='Reading second policy for comparison...';
+  var txt=await extractText(file,function(c,tot){updateDetail('Page '+c+'/'+tot)});
+  if(txt.content.length<40){$('errorTitle').textContent='Could not read the second file';$('errorSub').textContent='Not enough text to compare.';showView('error');return}
+  updateDetail('Analysing second policy...');
+  var res2=null;try{res2=await callClaude(buildPrompt(txt.content),4096)}catch(e){}
+  if(loadTimer)clearInterval(loadTimer);
+  if(!res2){$('errorTitle').textContent='Could not analyse second policy';$('errorSub').textContent='AI service error. Try again.';showView('error');return}
+  var second={fileName:file.name,policyType:res2.policy_type,summary:res2.summary,covered:res2.covered||[],notCovered:res2.not_covered||[],conditions:res2.conditions||[],checklist:res2.checklist||[],isDemo:!!res2.is_demo,decodedAt:new Date().toISOString()};
+  history_.unshift(second);saveHist();
+  renderComparison(currentResult,second);
+  showView('compare');
+  this.value='';
+});
+function renderComparison(a,b){
+  var sameType=a.policyType.toLowerCase()===b.policyType.toLowerCase();
+  var nameA=a.fileName.replace(/\.(pdf|txt)$/i,'').replace(/_/g,' ');
+  var nameB=b.fileName.replace(/\.(pdf|txt)$/i,'').replace(/_/g,' ');
+  $('comparePair').innerHTML='<div class="compare-col" style="border-left:4px solid var(--blue)"><div class="compare-col-title" style="color:var(--blue)">Policy 1</div><div class="compare-col-name">'+nameA+'</div><div class="compare-col-sub">'+a.policyType+'</div></div><div class="compare-col" style="border-left:4px solid var(--amber)"><div class="compare-col-title" style="color:var(--amber)">Policy 2</div><div class="compare-col-name">'+nameB+'</div><div class="compare-col-sub">'+b.policyType+'</div></div>';
+  var html='';
+  if(!sameType){
+    html+='<div class="info-banner blue" style="display:flex;margin-bottom:16px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:2px"></i><span>These are different policy types ('+a.policyType+' vs '+b.policyType+'). Direct comparison may be less meaningful.</span></div>';
+  }
+  // Column labels header
+  var colHeader='<div class="compare-row" style="margin-bottom:4px"><div style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.5px">'+nameA+'</div><div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.5px">'+nameB+'</div></div>';
+  // Summary
+  html+='<div class="compare-section"><div class="compare-section-title"><i class="ti ti-file-text"></i> Summary</div>'+colHeader+'<div class="compare-row"><div class="compare-cell" style="border-top:3px solid var(--blue)">'+a.summary+'</div><div class="compare-cell" style="border-top:3px solid var(--amber)">'+b.summary+'</div></div></div>';
+  // Conditions
+  html+='<div class="compare-section"><div class="compare-section-title"><i class="ti ti-clock"></i> Key conditions</div>';
+  var allLabels=[];
+  a.conditions.forEach(function(c){if(allLabels.indexOf(c.label)===-1)allLabels.push(c.label)});
+  b.conditions.forEach(function(c){if(allLabels.indexOf(c.label)===-1)allLabels.push(c.label)});
+  allLabels.forEach(function(label){
+    var vA=a.conditions.find(function(c){return c.label===label});
+    var vB=b.conditions.find(function(c){return c.label===label});
+    html+='<div style="font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 4px">'+label+'</div>';
+    html+='<div class="compare-row"><div class="compare-cell" style="border-left:3px solid var(--blue)">'+(vA?vA.value:'Not specified')+'</div><div class="compare-cell" style="border-left:3px solid var(--amber)">'+(vB?vB.value:'Not specified')+'</div></div>';
+  });
+  html+='</div>';
+  // Covered
+  html+='<div class="compare-section"><div class="compare-section-title"><i class="ti ti-check"></i> What\'s covered</div>'+colHeader+'<div class="compare-row"><div class="compare-cell" style="border-top:3px solid var(--blue)">'+a.covered.map(function(i){return'<div style="display:flex;gap:6px;padding:3px 0"><div class="res-dot green" style="margin-top:6px"></div><span>'+i+'</span></div>'}).join('')+'</div><div class="compare-cell" style="border-top:3px solid var(--amber)">'+b.covered.map(function(i){return'<div style="display:flex;gap:6px;padding:3px 0"><div class="res-dot green" style="margin-top:6px"></div><span>'+i+'</span></div>'}).join('')+'</div></div></div>';
+  // Not covered
+  html+='<div class="compare-section"><div class="compare-section-title"><i class="ti ti-x"></i> What\'s NOT covered</div>'+colHeader+'<div class="compare-row"><div class="compare-cell" style="border-top:3px solid var(--blue)">'+a.notCovered.map(function(i){return'<div style="display:flex;gap:6px;padding:3px 0"><div class="res-dot red" style="margin-top:6px"></div><span>'+i+'</span></div>'}).join('')+'</div><div class="compare-cell" style="border-top:3px solid var(--amber)">'+b.notCovered.map(function(i){return'<div style="display:flex;gap:6px;padding:3px 0"><div class="res-dot red" style="margin-top:6px"></div><span>'+i+'</span></div>'}).join('')+'</div></div></div>';
+  // Checklist
+  html+='<div class="compare-section"><div class="compare-section-title"><i class="ti ti-checklist"></i> Claim documents needed</div>'+colHeader+'<div class="compare-row"><div class="compare-cell" style="border-top:3px solid var(--blue)">'+a.checklist.map(function(i,n){return(n+1)+'. '+i}).join('<br>')+'</div><div class="compare-cell" style="border-top:3px solid var(--amber)">'+b.checklist.map(function(i,n){return(n+1)+'. '+i}).join('<br>')+'</div></div></div>';
+  $('compareSections').innerHTML=html;
+}
+// Landing page
+function showTool(){
+  $('landingPage').style.display='none';
+  $('toolSection').style.display='block';
+  showView('upload');renderHist();
+  window.scrollTo(0,0);
+}
+function showLanding(){
+  $('landingPage').style.display='block';
+  $('toolSection').style.display='none';
+  window.scrollTo(0,0);
+}
+$('heroCta').addEventListener('click',showTool);
+$('navLogo').addEventListener('click',showLanding);
+// Nav scroll effect
+window.addEventListener('scroll',function(){
+  $('mainNav').classList.toggle('scrolled',window.scrollY>10);
+});
+// Camera capture
+var capturedPages=[];
+$('cameraBtn').addEventListener('click',function(){$('cameraInput').click()});
+$('cameraAddBtn').addEventListener('click',function(){$('cameraInput').click()});
+$('cameraInput').addEventListener('change',function(){
+  var files=this.files;
+  if(!files.length)return;
+  for(var i=0;i<files.length;i++){
+    (function(file){
+      var reader=new FileReader();
+      reader.onload=function(e){
+        capturedPages.push(e.target.result);
+        renderCameraPages();
+      };
+      reader.readAsDataURL(file);
+    })(files[i]);
+  }
+  this.value='';
+});
+function renderCameraPages(){
+  $('cameraPages').style.display=capturedPages.length?'block':'none';
+  $('camPageCount').textContent=capturedPages.length+' page'+(capturedPages.length>1?'s':'')+' captured';
+  $('cameraThumbs').innerHTML=capturedPages.map(function(src,i){
+    return'<div class="camera-thumb-wrap"><img src="'+src+'" class="camera-thumb"><button class="camera-thumb-x" data-idx="'+i+'">×</button></div>';
+  }).join('');
+  $('cameraThumbs').querySelectorAll('.camera-thumb-x').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      capturedPages.splice(parseInt(this.dataset.idx),1);
+      renderCameraPages();
+    });
+  });
+}
+$('cameraDecode').addEventListener('click',function(){
+  if(!capturedPages.length)return;
+  startLoading();
+  var content=capturedPages.map(function(src){
+    var base64=src.split(',')[1];
+    var mt=src.split(';')[0].split(':')[1];
+    return{type:'image',source:{type:'base64',media_type:mt,data:base64}};
+  });
+  content.push({type:'text',text:buildPrompt('Decode this insurance policy from the scanned images.')});
+  fetch('/.netlify/functions/decode',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({max_tokens:4096,messages:[{role:'user',content:content}]})
+  }).then(function(r){return r.json()}).then(function(d){
+    if(d.error){showError(d.error.message||'API error');return}
+    var txt=(d.content||[]).map(function(b){return b.text||''}).join('');
+    try{
+      var clean=txt;
+      var p=repairJSON(clean);
+      p.fileName='Camera scan ('+capturedPages.length+' pages)';
+      p.decodedAt=new Date().toISOString();
+      currentResult=p;
+      history_.unshift(p);saveHist();
+      // Anonymous data tracking
+      try{
+        var trackData={
+          policy_type:p.policyType||'',
+          insurer:p.insurer||'Unknown',
+          sum_insured:(p.conditions||[]).filter(function(c){return c.label&&c.label.toLowerCase().indexOf('sum')!==-1}).map(function(c){return c.value}).join('')||'',
+          exclusions_count:(p.notCovered||[]).length,
+          red_flags_count:(p.redFlags||[]).length,
+          conditions_count:(p.conditions||[]).length,
+          device:/Mobile|Android|iPhone/i.test(navigator.userAgent)?'Mobile':'Desktop'
+        };
+        trackData.insurer=trackData.insurer?trackData.insurer[0]:'Unknown';
+        var webhookUrl='https://script.google.com/macros/s/AKfycbzQ_Xah2gRC2fLgArFuKhB-DZQ0Ih4FFpNLEUDY5KTfyYKb4AcYSn3Se0FgxaO9bBAh/exec';
+        if(webhookUrl){
+          var timg=new Image();timg.src=webhookUrl+'?data='+encodeURIComponent(JSON.stringify(trackData));
+        }
+      }catch(e){}
+      renderResult(p);showView('result');
+    }catch(e){showError('Could not parse the response. The scanned images may not be clear enough.')}
+  }).catch(function(e){showError('Connection error: '+e.message)});
+  capturedPages=[];renderCameraPages();
+});
+// API key setup
+$('saveKeyBtn').addEventListener('click',function(){
+  var key=$('apiKeyInput').value.trim();
+  if(!key){$('keyError').textContent='Please paste your API key.';return}
+  if(!key.startsWith('sk-')){$('keyError').textContent='That doesn\'t look like a valid key. It should start with sk-';return}
+  $('keyError').textContent='';
+  localStorage.setItem('iance_key',key);
+  showView('upload');
+  renderHist();
+});
+$('keyToggle').addEventListener('click',function(){
+  var inp=$('apiKeyInput');
+  if(inp.type==='password'){inp.type='text';this.innerHTML='<i class="ti ti-eye-off"></i>'}
+  else{inp.type='password';this.innerHTML='<i class="ti ti-eye"></i>'}
+});
+$('apiKeyInput').addEventListener('keydown',function(e){if(e.key==='Enter')$('saveKeyBtn').click()});
+// Init — signup, welcome, and page routing
+var isStandalone=window.matchMedia('(display-mode:standalone)').matches||window.navigator.standalone===true;
+var userData=JSON.parse(localStorage.getItem('iance_user')||'null');
+
+function showWelcomeThenProceed(){
+  var overlay=$('welcomeOverlay');
+  $('welcomeName').textContent='Welcome, '+userData.name;
+  overlay.classList.add('on');
+  setTimeout(function(){
+    overlay.classList.remove('on');
+    if(isStandalone){
+      showTool();
+    }else{
+      $('landingPage').style.display='block';
+      $('toolSection').style.display='none';
+    }
+  },2200);
+}
+
+if(!userData){
+  // First time — show signup
+  $('landingPage').style.display='none';
+  $('toolSection').style.display='none';
+  $('signupOverlay').classList.add('on');
+}else{
+  // Returning user — show welcome
+  $('landingPage').style.display='none';
+  $('toolSection').style.display='none';
+  showWelcomeThenProceed();
+}
+
+// Signup handler
+$('signupSubmit').addEventListener('click',function(){
+  var name=$('signupName').value.trim();
+  var phone=$('signupPhone').value.trim();
+  var err=$('signupError');
+  if(!name){err.textContent='Please enter your name.';err.style.display='block';return}
+  if(!phone||phone.length<10||!/^\d{10}$/.test(phone)){err.textContent='Please enter a valid 10-digit mobile number.';err.style.display='block';return}
+  err.style.display='none';
+  userData={name:name,phone:phone,createdAt:new Date().toISOString()};
+  localStorage.setItem('iance_user',JSON.stringify(userData));
+  $('signupOverlay').classList.remove('on');
+  // Log signup to Google Sheet
+  try{
+    var signupData={policy_type:'SIGNUP',insurer:name,sum_insured:phone,exclusions_count:0,red_flags_count:0,conditions_count:0,device:/Mobile|Android|iPhone/i.test(navigator.userAgent)?'Mobile':'Desktop'};
+    var su='https://script.google.com/macros/s/AKfycbzQ_Xah2gRC2fLgArFuKhB-DZQ0Ih4FFpNLEUDY5KTfyYKb4AcYSn3Se0FgxaO9bBAh/exec';
+    if(su){var simg=new Image();simg.src=su+'?data='+encodeURIComponent(JSON.stringify(signupData))}
+  }catch(e){}
+  showWelcomeThenProceed();
+});
+$('signupPhone').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'').substring(0,10)});
+// Scroll reveal animations
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }else{
+      entry.target.classList.remove('visible');
+    }
+  });
+},{threshold:0.15,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-up,.reveal-scale').forEach(function(el){observer.observe(el)});
+// Share score
+function shareScore(){
+  if(!currentResult)return;
+  var text='My insurance policy scored '+currentResult.score+'/100 on INsureANCE. Check your policy score: insureance.in';
+  if(navigator.share){
+    navigator.share({title:'My Insurance Health Score',text:text,url:'https://insureance.in'}).catch(function(){});
+  }else{
+    navigator.clipboard.writeText(text).then(function(){alert('Score copied! Share it with your friends.')}).catch(function(){
+      prompt('Copy this:',text);
+    });
+  }
+}
+// Install button
+var deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){
+  e.preventDefault();deferredPrompt=e;
+});
+$('installBtn').addEventListener('click',function(){
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(){deferredPrompt=null});
+  }else{
+    var isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
+    if(isIOS){alert('To install INsureANCE on your iPhone:\n\n1. Open this page in Safari\n2. Tap the Share button (↑) at the bottom\n3. Scroll down and tap "Add to Home Screen"\n4. Tap "Add"')}
+    else{alert('To install INsureANCE:\n\n1. Tap the three dots menu (⋮) in your browser\n2. Tap "Add to Home Screen" or "Install app"\n3. Tap "Add" or "Install"')}
+  }
+});
+if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+</script>
+</body>
+</html>
