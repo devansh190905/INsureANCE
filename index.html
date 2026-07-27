@@ -54,8 +54,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .scroll-hint i{font-size:18px}
 @keyframes pulse-down{0%,100%{transform:translateX(-50%) translateY(0);opacity:.6}50%{transform:translateX(-50%) translateY(6px);opacity:1}}
 /* Nav */
-.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;position:sticky;top:0;background:rgba(247,246,243,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:20;border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
-.nav.scrolled{border-bottom-color:var(--border);box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;position:sticky;top:0;background:transparent;backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);z-index:20;border-bottom:1px solid transparent;transition:all .4s ease}
+.nav.scrolled{background:rgba(10,10,10,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(0,0,0,.15);border-bottom:1px solid rgba(255,255,255,.05)}
+.nav.scrolled .nav-logo{color:var(--white)}
+.nav.scrolled .nav-link.primary{color:var(--white);background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
 .nav-logo{font-size:22px;font-weight:700;color:var(--black);letter-spacing:-.4px}
 .nav-logo em{font-family:'Great Vibes',cursive;font-style:normal;font-weight:400;font-size:27px}
 .nav-links{display:flex;gap:8px;align-items:center}
@@ -68,7 +70,21 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .hero h1{font-size:38px;font-weight:700;color:var(--black);line-height:1.15;letter-spacing:-.8px;margin-bottom:16px}
 .hero h1 span{display:block;color:var(--sub);font-weight:500;font-size:19px;letter-spacing:0;margin-top:10px;line-height:1.5}
 .hero p{font-size:16px;color:var(--sub);line-height:1.75;max-width:460px;margin:0 auto 32px}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);border:none;border-radius:14px;padding:16px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .12s,box-shadow .2s;box-shadow:var(--shadow-md)}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--black);color:var(--white);border:none;border-radius:14px;padding:16px 36px;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .25s ease,box-shadow .3s ease;box-shadow:var(--shadow-md)}
+.hero-cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.hero-cta:active{transform:translateY(0)}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 20px rgba(96,165,250,.08)}50%{box-shadow:0 0 50px rgba(96,165,250,.18)}}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.scroll-hint{animation:floatUp 2.5s ease infinite}
+/* Noise texture overlay */
+.noise-overlay{position:absolute;top:0;left:0;right:0;bottom:0;opacity:.03;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* Animated gradient shift */
+@keyframes gradientShift{0%{transform:translate(0,0)}33%{transform:translate(20px,-20px)}66%{transform:translate(-20px,10px)}100%{transform:translate(0,0)}}
+/* Section angle divider */
+.section-divider-angle{position:absolute;bottom:0;left:0;right:0;height:60px;clip-path:polygon(0 100%,100% 0,100% 100%)}
+/* Counter animation */
+.count-up{display:inline-block}
+@keyframes countFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .hero-cta:hover{box-shadow:var(--shadow-lg)}
 .hero-cta:active{transform:scale(.97)}
 .hero-cta i{font-size:20px}
@@ -100,7 +116,11 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .feat-section{padding:0 24px 56px}
 .feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .feat-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;box-shadow:var(--shadow);transition:box-shadow .2s,transform .2s}
-.feat-card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.feat-card:hover{box-shadow:0 12px 32px rgba(0,0,0,.12);transform:translateY(-4px)}
+.slide-dark .feat-card:hover{box-shadow:0 8px 30px rgba(96,165,250,.1);border-color:rgba(96,165,250,.2)}
+.how-step{transition:transform .25s ease,box-shadow .25s ease}
+.how-step:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.slide-dark .how-step:hover{box-shadow:0 8px 24px rgba(96,165,250,.08);border-color:rgba(96,165,250,.15)}
 .feat-card i{font-size:26px;color:var(--sub);margin-bottom:12px;display:block}
 .feat-card-title{font-size:17px;font-weight:600;color:var(--black);margin-bottom:5px}
 .feat-card-sub{font-size:15px;color:var(--sub);line-height:1.65}
@@ -421,59 +441,110 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 <!-- Landing Page -->
 <div id="landingPage">
 
-<!-- SLIDE 1: HERO -->
-<div class="slide">
+<!-- HERO — dark, cinematic, animated gradient -->
+<div class="slide" style="min-height:100vh;background:var(--black);overflow:hidden;position:relative">
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 0%,rgba(37,99,235,.08) 0%,transparent 70%);pointer-events:none"></div>
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;animation:gradientShift 8s ease infinite;opacity:.4;pointer-events:none;background:radial-gradient(circle at 30% 70%,rgba(96,165,250,.06),transparent 50%),radial-gradient(circle at 70% 30%,rgba(167,139,250,.06),transparent 50%)"></div>
+<div class="noise-overlay"></div>
+<div class="slide-inner" style="text-align:center;position:relative;z-index:1">
+<div class="reveal" style="font-size:56px;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-.5px">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:68px">sure</em>ANCE</div>
+<p class="reveal reveal-d1" style="font-size:13px;color:rgba(255,255,255,.25);letter-spacing:5px;text-transform:uppercase;margin-top:16px">Policy Intelligence</p>
+<h1 class="slide-h reveal reveal-d2" style="font-size:42px;letter-spacing:-1px;max-width:520px;margin:48px auto 0;line-height:1.3;color:var(--white);font-weight:600;padding-bottom:4px">Know what your insurance <em style="font-style:italic;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;padding:0 2px">actually</em> covers.</h1>
+</div>
+<div class="scroll-hint" style="color:rgba(255,255,255,.2)"><span>Scroll</span><i class="ti ti-chevron-down"></i></div>
+<div class="section-divider-angle" style="background:var(--white)"></div>
+</div>
+
+<!-- THE GAP — white, breathing room -->
+<div class="slide" style="background:var(--white);min-height:80vh">
 <div class="slide-inner" style="text-align:center">
-<div class="reveal" style="font-size:46px;font-weight:700;color:var(--black);margin-bottom:12px;letter-spacing:-.5px">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:56px">sure</em>ANCE</div>
-<h1 class="slide-h reveal reveal-d1" style="font-size:52px;letter-spacing:-1.5px;max-width:620px;margin:0 auto 20px;margin-top:32px">Policy intelligence for <em style="font-style:italic">your</em> platform.</h1>
-<p class="slide-p reveal reveal-d2" style="margin:0 auto;text-align:center;font-size:20px">An AI engine that reads any insurance policy and delivers structured, plain-English clarity — built to embed inside your product.</p>
+<h2 class="slide-h reveal" style="font-size:36px;color:var(--black);line-height:1.35;max-width:580px;margin:0 auto;font-weight:600">The insurance industry spends billions selling policies.</h2>
+<h2 class="slide-h reveal reveal-d1" style="font-size:36px;color:var(--gray);line-height:1.35;max-width:580px;margin:8px auto 0;font-weight:600">Almost nothing helping people understand them.</h2>
 </div>
-<div class="scroll-hint"><span>Scroll</span><i class="ti ti-chevron-down"></i></div>
 </div>
 
-<!-- SLIDE 2: THE PROBLEM -->
+<!-- THE TRUTH — dark, impactful numbers -->
+<!-- noise added -->
+<div class="slide slide-dark" style="min-height:auto;padding:80px 0">
+<div class="slide-inner">
+<div style="display:grid;grid-template-columns:1fr;gap:40px;max-width:500px;margin:0 auto;text-align:center">
+<div class="reveal"><div style="font-size:14px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px">Claims rejected annually</div><div style="font-size:52px;font-weight:700;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Thousands of crores</div></div>
+<div class="reveal reveal-d1"><div style="font-size:14px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px">Policyholders unsure about their coverage</div><div style="font-size:52px;font-weight:700;color:var(--white)">4 out of 5</div></div>
+<div class="reveal reveal-d2"><div style="font-size:14px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px">Average policy length nobody reads</div><div style="font-size:52px;font-weight:700;color:var(--white)">40+ pages</div></div>
+</div>
+</div>
+</div>
+
+<!-- WHAT WE BUILT — white, centered -->
+<div class="slide" style="background:var(--white);min-height:70vh">
+<div class="slide-inner" style="text-align:center">
+<div class="reveal" style="font-size:11px;color:var(--blue);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:16px">What we built</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:38px;color:var(--black);max-width:540px;margin:0 auto 20px;line-height:1.25;font-weight:600">An AI that reads every page of any policy and tells you the truth.</h2>
+<p class="reveal reveal-d2" style="font-size:17px;color:var(--gray);max-width:440px;margin:0 auto">Health. Motor. Life. Travel. Home. Commercial. Any insurer. Any language.</p>
+</div>
+</div>
+
+<!-- INSURANCE HEALTH SCORE — dark -->
 <div class="slide slide-dark">
 <div class="slide-inner">
-<div class="slide-label reveal">The problem</div>
-<h2 class="slide-h reveal reveal-d1" style="font-size:46px">Nobody <span style="color:rgba(255,255,255,.4);text-decoration:line-through">reads</span> <em style="font-style:italic;color:#fff">understands</em> their insurance policy.</h2>
-<p class="slide-p reveal reveal-d2" style="margin-bottom:40px;font-size:20px">Whether it's health, motor, life, travel, home, or commercial insurance — policy documents are <strong style="color:rgba(255,255,255,.85)">40+ pages of legal jargon</strong> that most policyholders never fully read. The result: avoidable claim rejections, unnecessary disputes, and a growing trust gap.</p>
-<div class="stats reveal-scale reveal-d3" style="padding:0">
-<div class="stat"><div class="stat-num">40+</div><div class="stat-label">pages in a typical insurance policy that most people never read</div></div>
-<div class="stat"><div class="stat-num">70%+</div><div class="stat-label">of policyholders discover exclusions only after a claim is rejected</div></div>
-<div class="stat"><div class="stat-num">Rs. 15,100Cr+</div><div class="stat-label">worth of insurance claims rejected in India annually</div></div>
-</div>
-</div>
-</div>
-
-<!-- SLIDE 3: WHAT WE DO -->
-<div class="slide">
-<div class="slide-inner">
-<div class="slide-label reveal">What we do</div>
-<h2 class="slide-h reveal reveal-d1" style="font-size:46px">We turn policy documents into <em style="font-style:italic">plain English</em>.</h2>
-<p class="slide-p reveal reveal-d3" style="font-size:20px"><span style="font-weight:700">IN<em style="font-family:Great Vibes,cursive;font-style:normal;font-weight:400;font-size:24px">sure</em>ANCE</span> reads any insurance PDF — health, motor, life, travel, home — and gives you a clear breakdown: <strong style="color:var(--black)">what's covered</strong>, <strong style="color:var(--black)">what's excluded</strong>, <strong style="color:var(--black)">key conditions</strong>, <strong style="color:var(--red)">claim risk alerts</strong>, and a <strong style="color:var(--black)">claim-ready document checklist</strong>. In seconds.</p>
-</div>
-</div>
-
-<!-- SLIDE 4: HOW IT WORKS -->
-<div class="slide slide-dark">
-<div class="slide-inner">
-<div class="slide-label reveal">How it works</div>
-<h2 class="slide-h reveal reveal-d1" style="font-size:42px;margin-bottom:16px">Upload. Read. Understand.</h2>
-<p class="slide-p reveal reveal-d2" style="margin-bottom:36px;font-size:18px">Health. Motor. Life. Travel. Home. Commercial. Fire. Marine. Liability. We decode <em style="font-style:italic;color:rgba(255,255,255,.85)">all of them</em>.</p>
+<div class="reveal" style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:16px">First of its kind</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:36px;line-height:1.3">Insurance Health Score.<br><span style="color:rgba(255,255,255,.4)">A single number. Zero confusion.</span></h2>
+<p class="slide-p reveal reveal-d2" style="font-size:16px;margin-bottom:36px;max-width:480px">Coverage quality. Risk exposure. Claim readiness. Transparency. Four dimensions scored from 0 to 100.</p>
 <div class="how-steps">
-<div class="how-step reveal-up reveal-d1"><div class="how-step-title">Upload or scan</div><div class="how-step-sub">Drop your policy PDF or scan it with your phone camera. Any insurer, any policy type.</div></div>
-<div class="how-step reveal-up reveal-d2"><div class="how-step-title">AI reads every page</div><div class="how-step-sub">Our AI reads your entire policy and identifies coverage, exclusions, conditions, and red flags.</div></div>
-<div class="how-step reveal-up reveal-d3"><div class="how-step-title">You understand it</div><div class="how-step-sub">Get a plain-English summary with a claim-ready document checklist. Ask questions. Compare policies.</div></div>
+<div class="how-step reveal-up reveal-d1" style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)"><div class="how-step-title">What's strong</div><div class="how-step-sub">Where your policy performs well. Clear terms, good coverage, low rejection risk.</div></div>
+<div class="how-step reveal-up reveal-d2" style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)"><div class="how-step-title">What's weak</div><div class="how-step-sub">Hidden sub-limits, co-pay traps, exclusions that could cost you lakhs.</div></div>
+<div class="how-step reveal-up reveal-d3" style="border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)"><div class="how-step-title">What's missing</div><div class="how-step-sub">Gaps your policy should cover but doesn't. Things nobody mentioned.</div></div>
 </div>
 </div>
 </div>
 
-<!-- SLIDE 6: CTA -->
-<div class="slide slide-dark" style="min-height:60vh">
+<!-- MONEY AT RISK — white, red accent -->
+<div class="slide" style="background:var(--white)">
+<div class="slide-inner">
+<div class="reveal" style="font-size:11px;color:#dc2626;letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:16px">Money at risk</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:36px;color:var(--black);line-height:1.3;max-width:520px">File a claim tomorrow. How much comes from <em style="font-style:italic">your</em> pocket?</h2>
+<p class="slide-p reveal reveal-d2" style="color:var(--gray);font-size:16px;margin-bottom:36px;max-width:460px">Real amounts. Real scenarios. Based on your actual policy terms — not guesses.</p>
+<div class="how-steps">
+<div class="how-step reveal-up reveal-d1" style="background:var(--bg);border:1px solid var(--border)"><div class="how-step-title" style="color:var(--black)">Claim Simulator</div><div class="how-step-sub" style="color:var(--gray)">Pick any scenario. See what's covered, what's not, and exactly how much you'd pay.</div></div>
+<div class="how-step reveal-up reveal-d2" style="background:var(--bg);border:1px solid var(--border)"><div class="how-step-title" style="color:var(--black)">Mis-sell Detector</div><div class="how-step-sub" style="color:var(--gray)">What your agent told you versus what the policy actually says.</div></div>
+<div class="how-step reveal-up reveal-d3" style="background:var(--bg);border:1px solid var(--border)"><div class="how-step-title" style="color:var(--black)">Claim Checklist</div><div class="how-step-sub" style="color:var(--gray)">Every document you need, ready before you need it.</div></div>
+</div>
+</div>
+</div>
+
+<!-- CAPABILITIES — dark -->
+<div class="slide slide-dark">
+<div class="slide-inner">
+<div class="reveal" style="font-size:11px;color:rgba(255,255,255,.35);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:16px">Capabilities</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:34px;margin-bottom:36px">Built for depth. Designed for clarity.</h2>
+<div class="feat-grid reveal-scale reveal-d2">
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08);transition:transform .2s,background .2s"><i class="ti ti-file-text" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">Universal decoder</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">Any policy, any insurer, any type. Structured output every time.</div></div>
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)"><i class="ti ti-chart-bar" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">Health Score</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">0-100 rating with four-dimensional breakdown.</div></div>
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)"><i class="ti ti-currency-rupee" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">Risk calculator</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">Exact out-of-pocket amounts for real scenarios.</div></div>
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)"><i class="ti ti-arrows-exchange" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">Policy comparison</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">Side-by-side with color-coded differences.</div></div>
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)"><i class="ti ti-language" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">11 languages</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">Hindi, Marathi, Tamil, Telugu, and seven more.</div></div>
+<div class="feat-card" style="background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.08)"><i class="ti ti-camera" style="color:var(--white)"></i><div class="feat-card-title" style="color:var(--white)">Camera scan</div><div class="feat-card-sub" style="color:rgba(255,255,255,.5)">Photograph a paper policy. Decode instantly.</div></div>
+</div>
+</div>
+</div>
+
+<!-- PRIVACY — white, clean -->
+<div class="slide" style="background:var(--white);min-height:50vh">
 <div class="slide-inner" style="text-align:center">
-<h2 class="slide-h reveal" style="font-size:46px;max-width:520px;margin:0 auto 28px">See it in action.</h2>
-<button class="hero-cta reveal-up reveal-d1" id="heroCta" style="background:var(--white);color:var(--black);box-shadow:var(--shadow-lg)"><i class="ti ti-file-text"></i> Decode Policy</button>
-<div class="hero-sub reveal reveal-d2" style="margin-top:16px;color:rgba(255,255,255,.35)">Upload any insurance policy and get your results in seconds. No signup required.</div>
+<div class="reveal" style="font-size:11px;color:var(--gray);letter-spacing:4px;text-transform:uppercase;font-weight:700;margin-bottom:16px">Privacy</div>
+<h2 class="slide-h reveal reveal-d1" style="font-size:34px;color:var(--black);max-width:400px;margin:0 auto 16px">No data stored. Ever.</h2>
+<p class="reveal reveal-d2" style="font-size:16px;color:var(--gray);max-width:380px;margin:0 auto">Processed in real-time. Deleted immediately. Nothing saved. Nothing shared.</p>
+</div>
+</div>
+
+<!-- CTA — dark, final -->
+<div class="slide" style="min-height:50vh;background:var(--black);position:relative;overflow:hidden">
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 100%,rgba(37,99,235,.06) 0%,transparent 70%);pointer-events:none"></div>
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;animation:gradientShift 8s ease infinite;opacity:.3;pointer-events:none;background:radial-gradient(circle at 60% 40%,rgba(96,165,250,.08),transparent 50%),radial-gradient(circle at 40% 60%,rgba(167,139,250,.06),transparent 50%)"></div>
+<div class="noise-overlay"></div>
+<div class="slide-inner" style="text-align:center;position:relative;z-index:1">
+<h2 class="slide-h reveal" style="font-size:38px;max-width:460px;margin:0 auto 28px;color:var(--white);font-weight:600">See what your policy is hiding.</h2>
+<button class="hero-cta reveal-up reveal-d1" id="heroCta" style="background:var(--white);color:var(--black);animation:glowPulse 3s ease infinite"><i class="ti ti-shield-check"></i> Try it now</button>
 </div>
 </div>
 
@@ -1216,6 +1287,14 @@ function shareScore(){
     });
   }
 }
+// Parallax on hero
+window.addEventListener('scroll',function(){
+  var hero=document.querySelector('#landingPage .slide');
+  if(hero&&window.scrollY<window.innerHeight){
+    var inner=hero.querySelector('.slide-inner');
+    if(inner)inner.style.transform='translateY('+window.scrollY*0.15+'px)';
+  }
+});
 // Install button
 var deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){
