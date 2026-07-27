@@ -712,7 +712,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 var selectedFile=null,extractedText='',currentResult=null,history_=JSON.parse(localStorage.getItem('iance_hist')||'[]');
-var DIRECT_LIMIT=500000,CHUNK_SIZE=60000,CHUNK_OVERLAP=2000,TEXT_CAP=18000;
+var DIRECT_LIMIT=500000,CHUNK_SIZE=60000,CHUNK_OVERLAP=2000,TEXT_CAP=10000;
 function smartSample(text){
   if(text.length<=TEXT_CAP)return text;
   var first=Math.floor(TEXT_CAP*0.7);
